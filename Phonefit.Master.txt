@@ -1,0 +1,158 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Phonefit.master.cs" Inherits="PhoneFit.Phonefit" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+     <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shop — PhoneFit</title>
+  <meta name="description"
+    content="Browse the full PhoneFit catalogue — smartphones, laptops, cameras, audio, wearables, and gaming. Filter by brand, price, and rating." />
+  <meta name="theme-color" content="#4F46E5" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Outfit:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+     <form id="form1" runat="server">
+         <div>
+      <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="utility">
+    <div class="container">
+      <span class="promo"><span class="tag">SALE</span>Free shipping on orders over $50 · 30-day returns</span>
+      <span class="links"><a href="#">Track order</a><a href="#">Help</a><a href="#">EN ·</a> ZAR</span></div>
+  </div>
+        <header class="site-header">
+    <div class="container">
+      <a href="Home.aspx" class="brand"><span class="brand-mark">P</span> Phonefit</a>
+      <form class="search" role="search" onsubmit="event.preventDefault();">
+        <input type="text" placeholder="Search for products, brands, categories…" />
+        <button type="submit" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M21 21l-4.3-4.3" />
+          </svg></button>
+      </form>
+      <div class="icon-row">
+        <a href="#" class="icon-btn" aria-label="Account"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21c0-4 4-7 8-7s8 3 8 7" />
+          </svg></a>
+        <a href="#" class="icon-btn" aria-label="Wishlist"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg><span class="count">3</span></a>
+        <a href="cart.aspx" class="icon-btn icon-btn--cart" aria-label="Cart"><svg width="20" height="20"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M6 2l-2 5v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7l-2-5z" />
+            <path d="M4 7h16" />
+            <path d="M16 11a4 4 0 0 1-8 0" />
+          </svg><span class="count">2</span></a>
+        <button class="nav-toggle" aria-label="Open menu">≡</button>
+      </div>
+    </div>
+  </header>
+    <!-- nav bar beggins -->
+  <nav class="nav-bar" aria-label="Primary">
+    <div class="container">
+      <a href="shop.aspx" class="all-cats"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>All Categories</a>
+      <div class="main-nav">
+        <a href="Home.aspx">Home</a>
+        <a href="shop.aspx" aria-current="page">Shop ▾</a>
+        <a href="product.aspx">Products</a>
+        <a href="cart.aspx">Cart</a>
+        <a href="Contact.aspx">Contact</a>
+      </div>
+      <span class="nav-cta">UP TO <strong>60% OFF</strong> ALL ITEMS</span>
+    </div>
+  </nav>
+    <!-- nav bar ends -->
+
+         <!-- Content starts -->
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+         <!-- Content ends -->
+
+
+         <!--footer starts -->
+         <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="mark"><span class="brand-mark">P</span> Phonefit</div>
+          <p>Modern tech &amp; gadgets — straight from the makers, shipped fast, supported well. Since 2018, we've moved
+            over 400,000 boxes.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Popular Categories</h4>
+            <p>
+                Gaming</p>
+          <ul>
+            <li><a href="shop.aspx">Smart Home</a></li>
+            <li><a href="shop.aspx">Smart Watches</a></li>
+            <li><a href="shop.aspx">Headphones</a></li>
+            <li><a href="shop.aspx">Internal Components</a></li>
+            <li><a href="shop.aspx">VR Headsets</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Let us help you</h4>
+          <ul>
+            <li><a href="#">My account</a></li>
+            <li><a href="#">My order</a></li>
+            <li><a href="#">Shipping policy</a></li>
+            <li><a href="#">Help centre</a></li>
+            <li><a href="#">Events</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Newsletter</a></li>
+            <li><a href="#">Help centre</a></li>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">Reviews</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Get to know us</h4>
+          <ul>
+            <li><a href="#">About us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#">Login / Register</a></li>
+            <li><a href="#">Terms &amp; conditions</a></li>
+            <li><a href="#">Privacy policy</a></li>
+            <li><a href="#">FAQs</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Sprylo · All rights reserved</span>
+        <span>Free HTML template · No framework · No build step. Distributed by <a href="https://themewagon.com/"
+            target="_blank">ThemeWagon</a></span>
+      </div>
+    </div>
+  </footer>
+  <!-- footer ends -->
+  <script src="assets/js/main.js" defer></script>
+       </div>
+    </form>
+</body>
+</html>

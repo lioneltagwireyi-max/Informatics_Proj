@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.35731.53
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneFit", "PhoneFit.csproj", "{5272EB28-9664-4CF8-824C-CDC651ECC8DD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{03228F69-3886-4A03-9F76-00E5B4B6514C} = {03228F69-3886-4A03-9F76-00E5B4B6514C}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneFitService", "..\PhoneFitService\PhoneFitService.csproj", "{03228F69-3886-4A03-9F76-00E5B4B6514C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5272EB28-9664-4CF8-824C-CDC651ECC8DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5272EB28-9664-4CF8-824C-CDC651ECC8DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5272EB28-9664-4CF8-824C-CDC651ECC8DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5272EB28-9664-4CF8-824C-CDC651ECC8DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03228F69-3886-4A03-9F76-00E5B4B6514C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03228F69-3886-4A03-9F76-00E5B4B6514C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03228F69-3886-4A03-9F76-00E5B4B6514C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03228F69-3886-4A03-9F76-00E5B4B6514C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {37CDB6D7-E588-4527-91AA-787F272136F2}
+	EndGlobalSection
+EndGlobal

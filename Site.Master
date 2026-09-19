@@ -1,0 +1,238 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="PhoneFit.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title><%: Page.Title %> - PhoneFit</title>
+
+    <meta name="description"
+        content="PhoneFit helps customers compare smartphones and find suitable devices." />
+
+    <meta name="theme-color" content="#4F46E5" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=Outfit:wght@400;500;600;700&amp;family=Roboto+Mono:wght@400;500&amp;display=swap" />
+
+    <link runat="server"
+        rel="stylesheet"
+        href="~/assets/css/styles.css"
+        type="text/css" />
+
+    <link runat="server"
+        rel="shortcut icon"
+        href="~/favicon.ico"
+        type="image/x-icon" />
+
+    <asp:ContentPlaceHolder
+        ID="HeadContent"
+        runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
+
+<!-- PhoneFit utility bar -->
+        <div class="utility">
+            <div class="container">
+                <span class="promo">
+                    <span class="tag">PHONEFIT</span>
+                    Compare smartphones and find a device suited to your needs.
+                </span>
+                <span class="links">
+                    <a runat="server" href="~/Contact.aspx">Help</a>
+                    <span>South Africa · ZAR</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- PhoneFit header -->
+        <header class="site-header">
+            <div class="container">
+                <a runat="server" href="~/Default.aspx" class="brand">
+                    <span class="brand-mark">P</span>
+                    PhoneFit
+                </a>
+
+                <div class="search" role="search">
+                    <input type="text"
+                        placeholder="Search smartphones or brands..."
+                        aria-label="Search smartphones" />
+
+                    <button type="button" aria-label="Search">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="M21 21l-4.3-4.3" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="icon-row">
+                    <a runat="server" href="~/Login.aspx" class="icon-btn" aria-label="Account">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <circle cx="12" cy="8" r="4" />
+                            <path d="M4 21c0-4 4-7 8-7s8 3 8 7" />
+                        </svg>
+                    </a>
+
+                    <a runat="server" href="~/cart.html"
+                        class="icon-btn icon-btn--cart" aria-label="Cart">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M6 2l-2 5v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7l-2-5z" />
+                            <path d="M4 7h16" />
+                            <path d="M16 11a4 4 0 0 1-8 0" />
+                        </svg>
+                        <span class="count">0</span>
+                    </a>
+
+                    <button type="button" class="nav-toggle"
+                        aria-label="Open menu" aria-expanded="false">&#8801;</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- PhoneFit primary navigation -->
+        <nav class="nav-bar" aria-label="Primary">
+            <div class="container">
+                <a runat="server" href="~/shop.html" class="all-cats">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                    Browse Phones
+                </a>
+
+                <div class="main-nav">
+                    <a runat="server" href="~/Default.aspx">Home</a>
+                    <a runat="server" href="~/shop.html">Shop Phones</a>
+                    <a href="#">Compare</a>
+                    <a href="#">Find My PhoneFit</a>
+                    <a runat="server" href="~/Contact.aspx">Contact</a>
+                </div>
+
+                <span class="nav-cta">
+                    FIND THE PHONE THAT <strong>FITS YOUR NEEDS</strong>
+                </span>
+            </div>
+        </nav>
+
+        <!-- Responsive mobile navigation drawer -->
+        <div class="drawer" id="drawer" aria-hidden="true">
+            <div class="drawer-head">
+                <a runat="server" href="~/Default.aspx" class="brand">
+                    <span class="brand-mark">P</span>
+                    PhoneFit
+                </a>
+
+                <button type="button" class="drawer-close" aria-label="Close menu">
+                    Close &#10005;
+                </button>
+            </div>
+
+            <a runat="server" href="~/Default.aspx">Home</a>
+            <a runat="server" href="~/shop.html">Shop Phones</a>
+            <a href="#">Compare</a>
+            <a href="#">Find My PhoneFit</a>
+            <a runat="server" href="~/cart.html">Cart</a>
+            <a runat="server" href="~/Contact.aspx">Contact</a>
+            <a runat="server" href="~/Login.aspx">Login</a>
+        </div>
+
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+            <footer class="site-footer">
+            <div class="container">
+                <div class="footer-grid">
+
+                    <div class="footer-brand">
+                        <div class="mark">
+                            <span class="brand-mark">P</span>
+                            PhoneFit
+                        </div>
+
+                        <p>
+                            Compare smartphones, understand their specifications,
+                            and find a device suited to your needs and budget.
+                        </p>
+                    </div>
+
+                    <div class="footer-col">
+                        <h4>PhoneFit</h4>
+                        <ul>
+                            <li><a runat="server" href="~/Default.aspx">Home</a></li>
+                            <li><a runat="server" href="~/shop.html">Shop Phones</a></li>
+                            <li><a href="#">Compare Phones</a></li>
+                            <li><a href="#">Find My PhoneFit</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-col">
+                        <h4>Customer Support</h4>
+                        <ul>
+                            <li><a runat="server" href="~/Login.aspx">My Account</a></li>
+                            <li><a runat="server" href="~/cart.html">My Cart</a></li>
+                            <li><a runat="server" href="~/Contact.aspx">Contact Us</a></li>
+                            <li><a href="#">Help</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-col">
+                        <h4>Smartphone Information</h4>
+                        <ul>
+                            <li><a href="#">Android Phones</a></li>
+                            <li><a href="#">iPhones</a></li>
+                            <li><a href="#">Phone Specifications</a></li>
+                            <li><a href="#">Buying Guide</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="footer-bottom">
+                    <span>
+                        &copy; <%: DateTime.Now.Year %> PhoneFit · All rights reserved
+                    </span>
+
+                    <span>
+                        Template adapted from Sprylo · Distributed by ThemeWagon
+                    </span>
+                </div>
+            </div>
+        </footer>
+    </form>
+    <script src="assets/js/main.js" defer></script>
+</body>
+</html>
