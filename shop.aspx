@@ -9,8 +9,8 @@
         </div>
             <h1>Shop Smartphones</h1>
             <p>
-                Browse PhoneFit's available smartphones and select a device
-                to view its variants, price, stock and specifications.
+                Browse the PhoneFit catalogue. Sort by name or price, then open a device
+                for variants, stock and specifications.
             </p>
       </div>
     </section>

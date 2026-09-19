@@ -1,169 +1,163 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Phonefit.master.cs" Inherits="PhoneFit.PhoneFitMaster" %>
 
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head runat="server">
-     <meta charset="utf-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shop — PhoneFit</title>
+  <title>PhoneFit — Smartphones that fit</title>
   <meta name="description"
-    content="Browse the full PhoneFit catalogue — smartphones, laptops, cameras, audio, wearables, and gaming. Filter by brand, price, and rating." />
+    content="PhoneFit is a smartphone catalogue and storefront. Compare devices, shop securely, and manage orders." />
   <meta name="theme-color" content="#0F766E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Outfit:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" />
-  <link rel="stylesheet" href="assets/css/styles.css?v=4" />
-    <asp:ContentPlaceHolder ID="head" runat="server">
-    </asp:ContentPlaceHolder>
+  <link rel="stylesheet" href="assets/css/styles.css?v=5" />
+  <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
 </head>
-<body>
-     <form id="form1" runat="server">
-         <div>
-      <a class="skip-link" href="#main">Skip to content</a>
+<body runat="server" id="bodyTag">
+  <form id="form1" runat="server">
+    <a class="skip-link" href="#main">Skip to content</a>
 
-  <div class="utility">
-    <div class="container">
-      <span class="promo"><span class="tag">SALE</span>Free shipping on orders over R1 000 · 30-day returns</span>
-      <span class="links"><a href="#">Track order</a><a href="#">Help</a><a href="#">EN ·</a> ZAR</span></div>
-  </div>
-        <header class="site-header">
-    <div class="container" style="display:flex">
-      <a href="Home.aspx" class="brand"><span class="brand-mark">P</span> PhoneFit</a>
-      <div class="search" role="search">
-        <input type="text" placeholder="Search for products, brands, categories…" />
-        <button type="button" aria-label="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-            <circle cx="11" cy="11" r="7" />
-            <path d="M21 21l-4.3-4.3" />
-          </svg></button>
-     </div>
-      <div class="icon-row">
-        <a href="Login.aspx" class="icon-btn" aria-label="Account" runat="server" id="lnkAccountIcon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <circle cx="12" cy="8" r="4" />
-            <path d="M4 21c0-4 4-7 8-7s8 3 8 7" />
-          </svg>
-        </a>
-        <a href="cart.aspx" class="icon-btn icon-btn--cart" aria-label="Cart" runat="server" id="lnkCartIcon">
-          <svg width="20" height="20"
-            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round">
-            <path d="M6 2l-2 5v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7l-2-5z" />
-            <path d="M4 7h16" />
-            <path d="M16 11a4 4 0 0 1-8 0" />
-          </svg>
-          <asp:Label ID="lblCartCount" runat="server" CssClass="count" Text="0"></asp:Label>
-        </a>
-       <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false"> &#8801;
-</button>
+    <div class="utility">
+      <div class="container">
+        <span class="promo">
+          <asp:Literal ID="litUtilityTag" runat="server"></asp:Literal>
+          <asp:Literal ID="litUtilityPromo" runat="server"></asp:Literal>
+        </span>
+        <span class="links">
+          <asp:Literal ID="litRoleChip" runat="server"></asp:Literal>
+          <a href="Contact.aspx">Help</a>
+        </span>
       </div>
     </div>
-  </header>
-    <!-- nav bar beggins -->
-  <nav class="nav-bar" aria-label="Primary">
-    <div class="container">
-      <a href="shop.aspx" class="all-cats"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
-          <line x1="3" y1="6" x2="21" y2="6" />
-          <line x1="3" y1="12" x2="21" y2="12" />
-          <line x1="3" y1="18" x2="21" y2="18" />
-        </svg>Browse Phones</a>
-      <div class="main-nav">
-        <a href="Home.aspx">Home</a>
-        <a href="shop.aspx">Shop Phones</a>
-        <asp:HyperLink ID="lnkCart" runat="server" NavigateUrl="~/cart.aspx" Text="Cart" />
-        <asp:HyperLink ID="lnkInvoices" runat="server" NavigateUrl="~/Invoices.aspx" Text="Invoices" Visible="false" />
-        <asp:HyperLink ID="lnkAdmin" runat="server" NavigateUrl="~/Manager.aspx" Text="Admin" Visible="false" />
-        <asp:HyperLink ID="lnkProducts" runat="server" NavigateUrl="~/Products.aspx" Text="Products" Visible="false" />
-        <asp:HyperLink ID="lnkReports" runat="server" NavigateUrl="~/Reports.aspx" Text="Reports" Visible="false" />
-        <a href="Contact.aspx">Contact</a>
-        <asp:Panel ID="pnlGuestLinks" runat="server" style="display:inline;">
-          <a href="Login.aspx" class="Login-trigger-btn">Login</a>
-        </asp:Panel>
-        <asp:Panel ID="pnlAuthLinks" runat="server" Visible="false" style="display:inline;">
-          <asp:Literal ID="litAccountLabel" runat="server"></asp:Literal>
-          · <a href="Logout.aspx">Logout</a>
-        </asp:Panel>
-      </div>
-      <span class="nav-cta">UP TO <strong>60% OFF</strong> ALL ITEMS</span>
-    </div>
-  </nav>
-    <!-- nav bar ends -->
 
-         <!-- Content starts -->
-        <div>
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-            </asp:ContentPlaceHolder>
+    <header class="site-header">
+      <div class="container">
+        <a href="Home.aspx" class="brand" aria-label="PhoneFit home">
+          <span class="brand-mark">P</span>
+          <span class="brand-word">
+            <strong>PhoneFit</strong>
+            <span>Smartphones that fit</span>
+          </span>
+        </a>
+        <div class="search" role="search">
+          <input type="text" placeholder="Search phones, brands…" aria-label="Search" />
+          <button type="button" aria-label="Search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+              <circle cx="11" cy="11" r="7" />
+              <path d="M21 21l-4.3-4.3" />
+            </svg>
+          </button>
         </div>
-         <!-- Content ends -->
+        <div class="icon-row">
+          <a href="Login.aspx" class="icon-btn" aria-label="Account" runat="server" id="lnkAccountIcon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21c0-4 4-7 8-7s8 3 8 7" />
+            </svg>
+          </a>
+          <a href="cart.aspx" class="icon-btn icon-btn--cart" aria-label="Cart" runat="server" id="lnkCartIcon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2l-2 5v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7l-2-5z" />
+              <path d="M4 7h16" />
+              <path d="M16 11a4 4 0 0 1-8 0" />
+            </svg>
+            <asp:Label ID="lblCartCount" runat="server" CssClass="count" Text="0"></asp:Label>
+          </a>
+          <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#8801;</button>
+        </div>
+      </div>
+    </header>
 
+    <nav class="nav-bar" aria-label="Primary">
+      <div class="container">
+        <asp:HyperLink ID="lnkBrowse" runat="server" NavigateUrl="~/shop.aspx" CssClass="all-cats" Text="Browse Phones" />
 
-         <!--footer starts -->
-         <footer class="site-footer">
-    <div class="container">
+        <div class="main-nav">
+          <a href="Home.aspx">Home</a>
+
+          <asp:Panel ID="pnlCustomerNav" runat="server" Visible="false" style="display:contents;">
+            <span class="nav-group-label">Shop</span>
+            <a href="shop.aspx">Shop Phones</a>
+            <asp:HyperLink ID="lnkCart" runat="server" NavigateUrl="~/cart.aspx" Text="Cart" />
+            <asp:HyperLink ID="lnkInvoices" runat="server" NavigateUrl="~/Invoices.aspx" Text="Invoices" />
+          </asp:Panel>
+
+          <asp:Panel ID="pnlGuestShopNav" runat="server" Visible="true" style="display:contents;">
+            <a href="shop.aspx">Shop Phones</a>
+          </asp:Panel>
+
+          <asp:Panel ID="pnlAdminNav" runat="server" Visible="false" style="display:contents;">
+            <span class="nav-group-label">Admin</span>
+            <asp:HyperLink ID="lnkAdmin" runat="server" NavigateUrl="~/Manager.aspx" Text="Users" />
+            <asp:HyperLink ID="lnkProducts" runat="server" NavigateUrl="~/Products.aspx" Text="Products" />
+            <asp:HyperLink ID="lnkReports" runat="server" NavigateUrl="~/Reports.aspx" Text="Reports" />
+          </asp:Panel>
+
+          <a href="Contact.aspx">Contact</a>
+
+          <asp:Panel ID="pnlGuestLinks" runat="server" style="display:inline;">
+            <a href="Login.aspx" class="Login-trigger-btn">Login</a>
+          </asp:Panel>
+          <asp:Panel ID="pnlAuthLinks" runat="server" Visible="false" style="display:inline;">
+            <span class="auth-chip">
+              <asp:Literal ID="litAccountLabel" runat="server"></asp:Literal>
+              · <a href="Logout.aspx">Logout</a>
+            </span>
+          </asp:Panel>
+        </div>
+
+        <span class="nav-cta">FREE SHIPPING FROM <strong>R1 000</strong></span>
+      </div>
+    </nav>
+
+    <div id="main">
+      <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+    </div>
+
+    <footer class="site-footer">
+      <div class="container">
         <div class="footer-grid">
-
-            <div class="footer-brand">
-                <div class="mark">
-                    <span class="brand-mark">P</span>
-                    PhoneFit
-                </div>
-
-                <p>
-                    Browse and compare smartphones, explore specifications,
-                    and choose a device suited to your needs and budget.
-                </p>
-            </div>
-
-            <div class="footer-col">
-                <h4>PhoneFit</h4>
-                <ul>
-                    <li><a runat="server" href="~/Home.aspx">Home</a></li>
-                    <li><a runat="server" href="~/shop.aspx">Shop Phones</a></li>
-                    <li><a runat="server" href="~/cart.aspx">Cart</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Account</h4>
-                <ul>
-                    <li><a runat="server" href="~/Login.aspx">Login</a></li>
-                    <li><a runat="server" href="~/Registration.aspx">Register</a></li>
-                    <li><a runat="server" href="~/Invoices.aspx">Invoices</a></li>
-                    <li><a runat="server" href="~/Logout.aspx">Logout</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-col">
-                <h4>Support</h4>
-                <ul>
-                    <li><a runat="server" href="~/Contact.aspx">Contact Us</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms and Conditions</a></li>
-                </ul>
-            </div>
-
+          <div class="footer-brand">
+            <div class="mark"><span class="brand-mark">P</span> PhoneFit</div>
+            <p>Compare smartphones, check stock and specs, and check out with transparent tax, shipping and loyalty rules.</p>
+          </div>
+          <div class="footer-col">
+            <h4>PhoneFit</h4>
+            <ul>
+              <li><a runat="server" href="~/Home.aspx">Home</a></li>
+              <li><a runat="server" href="~/shop.aspx">Shop Phones</a></li>
+              <li><a runat="server" href="~/cart.aspx">Cart</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Account</h4>
+            <ul>
+              <li><a runat="server" href="~/Login.aspx">Login</a></li>
+              <li><a runat="server" href="~/Registration.aspx">Register</a></li>
+              <li><a runat="server" href="~/Invoices.aspx">Invoices</a></li>
+              <li><a runat="server" href="~/Logout.aspx">Logout</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Support</h4>
+            <ul>
+              <li><a runat="server" href="~/Contact.aspx">Contact Us</a></li>
+              <li><a runat="server" href="~/Manager.aspx">Admin</a></li>
+              <li><a runat="server" href="~/Products.aspx">Product management</a></li>
+            </ul>
+          </div>
         </div>
-
         <div class="footer-bottom">
-            <span>
-                &copy; <%: DateTime.Now.Year %> PhoneFit. All rights reserved.
-            </span>
-
-            <span>
-                Smartphone catalogue and comparison platform.
-            </span>
+          <span>&copy; <%: DateTime.Now.Year %> PhoneFit. All rights reserved.</span>
+          <span>IFM2B10 group project storefront.</span>
         </div>
-    </div>
-</footer>
+      </div>
+    </footer>
 
-  <!-- footer ends -->
-  <script src="assets/js/main.js" defer></script>
-       </div>
-    </form>
-
+    <script src="assets/js/main.js?v=5" defer></script>
+  </form>
 </body>
 </html>

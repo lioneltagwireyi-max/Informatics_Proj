@@ -2,11 +2,19 @@
 {
     public partial class PhoneFitMaster
     {
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl bodyTag;
         protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Literal litUtilityTag;
+        protected global::System.Web.UI.WebControls.Literal litUtilityPromo;
+        protected global::System.Web.UI.WebControls.Literal litRoleChip;
         protected global::System.Web.UI.HtmlControls.HtmlAnchor lnkAccountIcon;
         protected global::System.Web.UI.HtmlControls.HtmlAnchor lnkCartIcon;
         protected global::System.Web.UI.WebControls.Label lblCartCount;
+        protected global::System.Web.UI.WebControls.HyperLink lnkBrowse;
+        protected global::System.Web.UI.WebControls.Panel pnlCustomerNav;
+        protected global::System.Web.UI.WebControls.Panel pnlGuestShopNav;
+        protected global::System.Web.UI.WebControls.Panel pnlAdminNav;
         protected global::System.Web.UI.WebControls.HyperLink lnkCart;
         protected global::System.Web.UI.WebControls.HyperLink lnkInvoices;
         protected global::System.Web.UI.WebControls.HyperLink lnkAdmin;

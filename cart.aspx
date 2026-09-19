@@ -25,12 +25,10 @@
             <div class="container">
 
                 <asp:Panel ID="pnlCartEmpty" runat="server" Visible="false">
-                    <div style="padding: 60px 30px; text-align: center; background: var(--paper); border-radius: var(--r);">
-                        <div style="font-size: 48px; margin-bottom: 18px;">🛒</div>
-
+                    <div style="padding: 60px 30px; text-align: center; background: var(--paper); border: 1px solid var(--rule); border-radius: var(--r);">
                         <h2>Your cart is empty</h2>
 
-                        <p style="margin-bottom: 24px;">
+                        <p style="margin-bottom: 24px; color: var(--fg-mute);">
                             Browse the PhoneFit catalogue and add a phone to your cart.
                         </p>
 

@@ -120,9 +120,8 @@
                 <h1>User Management</h1>
 
                 <p>
-                    View registered PhoneFit users,
-                    assigned roles and account statuses.
-                    Admin and Manager roles can access this page.
+                    Admin workspace for PhoneFit accounts — view registered users,
+                    roles and account status.
                 </p>
 
                 <p style="margin-top: 16px;">
