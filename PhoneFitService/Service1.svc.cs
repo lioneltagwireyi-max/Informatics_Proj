@@ -598,5 +598,287 @@ namespace PhoneFitService
             return users;
         }
 
+        public OrderInvoice PlaceOrder(int userID)
+        {
+            var user =
+                (from account in db.UserAccounts
+                 where account.UserID == userID
+                 && account.UserIsActive == true
+                 select account).SingleOrDefault();
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var cart =
+                (from c in db.Carts
+                 where c.UserID == userID
+                 && c.IsActive == true
+                 select c).SingleOrDefault();
+
+            if (cart == null)
+            {
+                return null;
+            }
+
+            var cartItems =
+                (from item in db.CartItems
+                 where item.CartID == cart.CartID
+                 select item).ToList();
+
+            if (cartItems.Count == 0)
+            {
+                return null;
+            }
+
+            decimal subtotal = 0;
+            var lines = new List<OrderLineInfo>();
+            var notes = new List<string>();
+
+            foreach (var item in cartItems)
+            {
+                var variant =
+                    (from v in db.PhoneVariants
+                     where v.VariantID == item.VariantID
+                     && v.IsActive == true
+                     select v).SingleOrDefault();
+
+                if (variant == null || variant.StockQuantity < item.Quantity)
+                {
+                    return null;
+                }
+
+                var model =
+                    (from m in db.PhoneModels
+                     where m.PhoneModelID == variant.PhoneModelID
+                     select m).SingleOrDefault();
+
+                decimal lineTotal = variant.Price * item.Quantity;
+                subtotal += lineTotal;
+
+                lines.Add(new OrderLineInfo
+                {
+                    VariantID = variant.VariantID,
+                    ModelName = model != null ? model.ModelName : "Phone",
+                    VariantDescription =
+                        variant.RAMGB + "GB / " + variant.StorageGB + "GB / " + variant.Colour,
+                    Quantity = item.Quantity,
+                    UnitPrice = variant.Price,
+                    LineTotal = lineTotal
+                });
+            }
+
+            // Transaction rule 1: loyalty discount (5%) if customer has prior orders.
+            bool hasHistory =
+                (from o in db.CustomerOrders
+                 where o.UserID == userID
+                 select o).Any();
+
+            decimal discountAmount = 0;
+            if (hasHistory)
+            {
+                discountAmount = Math.Round(subtotal * 0.05m, 2);
+                notes.Add("Loyalty/history incentive: 5% discount applied.");
+            }
+            else
+            {
+                notes.Add("Loyalty/history incentive: not applied (first order).");
+            }
+
+            decimal amountAfterDiscount = subtotal - discountAmount;
+
+            // Transaction rule 2: free shipping over R1000, else flat R99.
+            decimal shippingAmount = amountAfterDiscount >= 1000m ? 0m : 99m;
+            notes.Add(shippingAmount == 0m
+                ? "Free shipping: order qualifies (R1 000+ after discount)."
+                : "Shipping: R99 flat rate (under free-shipping threshold).");
+
+            // Transaction rule 3: VAT / tax at 15% on goods after discount (not shipping).
+            decimal taxAmount = Math.Round(amountAfterDiscount * 0.15m, 2);
+            notes.Add("Tax/VAT: 15% applied to discounted merchandise subtotal.");
+
+            decimal totalAmount = amountAfterDiscount + shippingAmount + taxAmount;
+
+            var order = new CustomerOrder
+            {
+                UserID = userID,
+                OrderDate = DateTime.Now,
+                TotalAmount = totalAmount,
+                OrderStatus = "Received"
+            };
+
+            db.CustomerOrders.InsertOnSubmit(order);
+            db.SubmitChanges();
+
+            foreach (var item in cartItems)
+            {
+                var variant =
+                    (from v in db.PhoneVariants
+                     where v.VariantID == item.VariantID
+                     select v).SingleOrDefault();
+
+                db.OrderItems.InsertOnSubmit(new OrderItem
+                {
+                    OrderID = order.OrderID,
+                    VariantID = item.VariantID,
+                    Quantity = item.Quantity,
+                    UnitPrice = variant.Price
+                });
+
+                variant.StockQuantity -= item.Quantity;
+            }
+
+            db.CartItems.DeleteAllOnSubmit(cartItems);
+            cart.IsActive = false;
+            db.SubmitChanges();
+
+            return new OrderInvoice
+            {
+                OrderID = order.OrderID,
+                UserID = userID,
+                OrderDate = order.OrderDate,
+                OrderStatus = order.OrderStatus,
+                Subtotal = subtotal,
+                DiscountAmount = discountAmount,
+                ShippingAmount = shippingAmount,
+                TaxAmount = taxAmount,
+                TotalAmount = totalAmount,
+                TransactionNotes = string.Join(" ", notes),
+                Lines = lines
+            };
+        }
+
+        public List<OrderSummary> GetOrdersForUser(int userID)
+        {
+            return
+                (from o in db.CustomerOrders
+                 where o.UserID == userID
+                 orderby o.OrderDate descending
+                 select new OrderSummary
+                 {
+                     OrderID = o.OrderID,
+                     OrderDate = o.OrderDate,
+                     OrderStatus = o.OrderStatus,
+                     TotalAmount = o.TotalAmount
+                 }).ToList();
+        }
+
+        public OrderInvoice GetInvoice(int userID, int orderID)
+        {
+            var order =
+                (from o in db.CustomerOrders
+                 where o.OrderID == orderID
+                 && o.UserID == userID
+                 select o).SingleOrDefault();
+
+            if (order == null)
+            {
+                return null;
+            }
+
+            var lines =
+                (from oi in db.OrderItems
+                 join v in db.PhoneVariants on oi.VariantID equals v.VariantID
+                 join m in db.PhoneModels on v.PhoneModelID equals m.PhoneModelID
+                 where oi.OrderID == orderID
+                 select new OrderLineInfo
+                 {
+                     VariantID = oi.VariantID,
+                     ModelName = m.ModelName,
+                     VariantDescription =
+                         v.RAMGB + "GB / " + v.StorageGB + "GB / " + v.Colour,
+                     Quantity = oi.Quantity,
+                     UnitPrice = oi.UnitPrice,
+                     LineTotal = oi.UnitPrice * oi.Quantity
+                 }).ToList();
+
+            decimal subtotal = lines.Sum(l => l.LineTotal);
+            // Reconstruct display rules from stored total where possible is hard;
+            // show merchandise subtotal and stored total with explanatory notes.
+            return new OrderInvoice
+            {
+                OrderID = order.OrderID,
+                UserID = order.UserID,
+                OrderDate = order.OrderDate,
+                OrderStatus = order.OrderStatus,
+                Subtotal = subtotal,
+                DiscountAmount = 0,
+                ShippingAmount = 0,
+                TaxAmount = 0,
+                TotalAmount = order.TotalAmount,
+                TransactionNotes =
+                    "Invoice total includes tax, shipping and any discounts applied at checkout.",
+                Lines = lines
+            };
+        }
+
+        public ReportSummary GetReportSummary(DateTime fromDate, DateTime toDate)
+        {
+            DateTime from = fromDate == DateTime.MinValue
+                ? DateTime.Now.AddDays(-30).Date
+                : fromDate.Date;
+            DateTime toExclusive = toDate == DateTime.MinValue
+                ? DateTime.Now.Date.AddDays(1)
+                : toDate.Date.AddDays(1);
+
+            var ordersInRange =
+                (from o in db.CustomerOrders
+                 where o.OrderDate >= from && o.OrderDate < toExclusive
+                 select o).ToList();
+
+            var orderIds = ordersInRange.Select(o => o.OrderID).ToList();
+
+            var soldVariantIds =
+                (from oi in db.OrderItems
+                 where orderIds.Contains(oi.OrderID)
+                 select oi.VariantID).Distinct().ToList();
+
+            var stock =
+                (from v in db.PhoneVariants
+                 join m in db.PhoneModels on v.PhoneModelID equals m.PhoneModelID
+                 where soldVariantIds.Contains(v.VariantID)
+                 select new StockOnHandInfo
+                 {
+                     ModelName = m.ModelName,
+                     VariantDescription =
+                         v.RAMGB + "GB / " + v.StorageGB + "GB / " + v.Colour,
+                     StockQuantity = v.StockQuantity
+                 }).ToList();
+
+            var usersPerDay =
+                (from u in db.UserAccounts
+                 where u.UserAccountCreated >= from && u.UserAccountCreated < toExclusive
+                 group u by u.UserAccountCreated.Date into g
+                 orderby g.Key
+                 select new UsersPerDayInfo
+                 {
+                     Day = g.Key,
+                     UserCount = g.Count()
+                 }).ToList();
+
+            int customerRoleId =
+                (from r in db.Roles
+                 where r.RoleName == "Customer"
+                 select r.RoleID).FirstOrDefault();
+
+            return new ReportSummary
+            {
+                DistinctProductsSold = soldVariantIds.Count,
+                RegisteredUsersInRange =
+                    (from u in db.UserAccounts
+                     where u.UserAccountCreated >= from && u.UserAccountCreated < toExclusive
+                     select u).Count(),
+                OrdersInRange = ordersInRange.Count,
+                RevenueInRange = ordersInRange.Sum(o => o.TotalAmount),
+                ActiveCustomerAccounts =
+                    (from u in db.UserAccounts
+                     where u.RoleID == customerRoleId && u.UserIsActive
+                     select u).Count(),
+                TotalRegisteredUsers = db.UserAccounts.Count(),
+                StockOnHandForSoldProducts = stock,
+                UsersRegisteredPerDay = usersPerDay
+            };
+        }
     }
 }

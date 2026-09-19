@@ -177,14 +177,18 @@ namespace PhoneFit
 
         protected void btnCheckout_Click(object sender, EventArgs e)
         {
+            if (Session["UserID"] == null || !AppRoles.IsCustomerRole(Session["RoleName"] as string))
+            {
+                Response.Redirect(Session["UserID"] == null ? "Login.aspx" : "Home.aspx");
+                return;
+            }
+
             ActivityTracker.LogCustomerAction(
                 ActivityTracker.ActionCheckout,
                 "cart.aspx",
                 "Checkout started");
 
-            lblMessage.ForeColor = System.Drawing.Color.DarkGreen;
-            lblMessage.Text =
-                "Checkout activity was recorded. Full payment checkout will follow in a later phase.";
+            Response.Redirect("Checkout.aspx");
         }
     }
 }

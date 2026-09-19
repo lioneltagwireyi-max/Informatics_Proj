@@ -49,7 +49,143 @@ namespace PhoneFitService
         [OperationContract]
         List<UserInfo> GetUsers();
 
+        [OperationContract]
+        OrderInvoice PlaceOrder(int userID);
 
+        [OperationContract]
+        List<OrderSummary> GetOrdersForUser(int userID);
+
+        [OperationContract]
+        OrderInvoice GetInvoice(int userID, int orderID);
+
+        [OperationContract]
+        ReportSummary GetReportSummary(DateTime fromDate, DateTime toDate);
+    }
+
+    [DataContract]
+    public class OrderLineInfo
+    {
+        [DataMember]
+        public int VariantID { get; set; }
+
+        [DataMember]
+        public string ModelName { get; set; }
+
+        [DataMember]
+        public string VariantDescription { get; set; }
+
+        [DataMember]
+        public int Quantity { get; set; }
+
+        [DataMember]
+        public decimal UnitPrice { get; set; }
+
+        [DataMember]
+        public decimal LineTotal { get; set; }
+    }
+
+    [DataContract]
+    public class OrderSummary
+    {
+        [DataMember]
+        public int OrderID { get; set; }
+
+        [DataMember]
+        public DateTime OrderDate { get; set; }
+
+        [DataMember]
+        public string OrderStatus { get; set; }
+
+        [DataMember]
+        public decimal TotalAmount { get; set; }
+    }
+
+    [DataContract]
+    public class OrderInvoice
+    {
+        [DataMember]
+        public int OrderID { get; set; }
+
+        [DataMember]
+        public int UserID { get; set; }
+
+        [DataMember]
+        public DateTime OrderDate { get; set; }
+
+        [DataMember]
+        public string OrderStatus { get; set; }
+
+        [DataMember]
+        public decimal Subtotal { get; set; }
+
+        [DataMember]
+        public decimal DiscountAmount { get; set; }
+
+        [DataMember]
+        public decimal ShippingAmount { get; set; }
+
+        [DataMember]
+        public decimal TaxAmount { get; set; }
+
+        [DataMember]
+        public decimal TotalAmount { get; set; }
+
+        [DataMember]
+        public string TransactionNotes { get; set; }
+
+        [DataMember]
+        public List<OrderLineInfo> Lines { get; set; }
+    }
+
+    [DataContract]
+    public class ReportSummary
+    {
+        [DataMember]
+        public int DistinctProductsSold { get; set; }
+
+        [DataMember]
+        public int RegisteredUsersInRange { get; set; }
+
+        [DataMember]
+        public int OrdersInRange { get; set; }
+
+        [DataMember]
+        public decimal RevenueInRange { get; set; }
+
+        [DataMember]
+        public int ActiveCustomerAccounts { get; set; }
+
+        [DataMember]
+        public int TotalRegisteredUsers { get; set; }
+
+        [DataMember]
+        public List<StockOnHandInfo> StockOnHandForSoldProducts { get; set; }
+
+        [DataMember]
+        public List<UsersPerDayInfo> UsersRegisteredPerDay { get; set; }
+    }
+
+    [DataContract]
+    public class StockOnHandInfo
+    {
+        [DataMember]
+        public string ModelName { get; set; }
+
+        [DataMember]
+        public string VariantDescription { get; set; }
+
+        [DataMember]
+        public int StockQuantity { get; set; }
+    }
+
+    [DataContract]
+    public class UsersPerDayInfo
+    {
+        [DataMember]
+        public DateTime Day { get; set; }
+
+        [DataMember]
+        public int UserCount { get; set; }
     }
 
     [DataContract]

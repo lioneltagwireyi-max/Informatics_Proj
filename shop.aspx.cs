@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using PhoneFit.BackendServiceReference;
 
@@ -24,11 +22,46 @@ namespace PhoneFit
             }
         }
 
+        protected void ddlSort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DisplayPhones();
+        }
+
         private void DisplayPhones()
         {
-            var phones = client.GetActivePhones();
-            rptPhones.DataSource = phones;
+            PhoneCatalogue[] phones = client.GetActivePhones();
+            if (phones == null)
+            {
+                phones = new PhoneCatalogue[0];
+            }
+
+            IEnumerable<PhoneCatalogue> sorted = phones;
+            string sortKey = ddlSort.SelectedValue;
+
+            switch (sortKey)
+            {
+                case "name_desc":
+                    sorted = phones.OrderByDescending(p => p.ModelName);
+                    break;
+                case "price_asc":
+                    sorted = phones.OrderBy(p => p.StartingPrice).ThenBy(p => p.ModelName);
+                    break;
+                case "price_desc":
+                    sorted = phones.OrderByDescending(p => p.StartingPrice).ThenBy(p => p.ModelName);
+                    break;
+                default:
+                    sorted = phones.OrderBy(p => p.ModelName);
+                    break;
+            }
+
+            PhoneCatalogue[] list = sorted.ToArray();
+            rptPhones.DataSource = list;
             rptPhones.DataBind();
+
+            int count = list.Length;
+            lblPhoneCount.Text = count == 1
+                ? "Showing 1 smartphone"
+                : "Showing " + count + " smartphones";
         }
     }
 }

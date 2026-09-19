@@ -1469,6 +1469,18 @@ namespace PhoneFit.BackendServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetUsers", ReplyAction="http://tempuri.org/IService1/GetUsersResponse")]
         System.Threading.Tasks.Task<PhoneFit.BackendServiceReference.UserInfo[]> GetUsersAsync();
+
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/PlaceOrder", ReplyAction="http://tempuri.org/IService1/PlaceOrderResponse")]
+        PhoneFit.BackendServiceReference.OrderInvoice PlaceOrder(int userID);
+
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetOrdersForUser", ReplyAction="http://tempuri.org/IService1/GetOrdersForUserResponse")]
+        PhoneFit.BackendServiceReference.OrderSummary[] GetOrdersForUser(int userID);
+
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetInvoice", ReplyAction="http://tempuri.org/IService1/GetInvoiceResponse")]
+        PhoneFit.BackendServiceReference.OrderInvoice GetInvoice(int userID, int orderID);
+
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetReportSummary", ReplyAction="http://tempuri.org/IService1/GetReportSummaryResponse")]
+        PhoneFit.BackendServiceReference.ReportSummary GetReportSummary(System.DateTime fromDate, System.DateTime toDate);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1592,6 +1604,22 @@ namespace PhoneFit.BackendServiceReference {
         
         public System.Threading.Tasks.Task<PhoneFit.BackendServiceReference.UserInfo[]> GetUsersAsync() {
             return base.Channel.GetUsersAsync();
+        }
+
+        public PhoneFit.BackendServiceReference.OrderInvoice PlaceOrder(int userID) {
+            return base.Channel.PlaceOrder(userID);
+        }
+
+        public PhoneFit.BackendServiceReference.OrderSummary[] GetOrdersForUser(int userID) {
+            return base.Channel.GetOrdersForUser(userID);
+        }
+
+        public PhoneFit.BackendServiceReference.OrderInvoice GetInvoice(int userID, int orderID) {
+            return base.Channel.GetInvoice(userID, orderID);
+        }
+
+        public PhoneFit.BackendServiceReference.ReportSummary GetReportSummary(System.DateTime fromDate, System.DateTime toDate) {
+            return base.Channel.GetReportSummary(fromDate, toDate);
         }
     }
 }

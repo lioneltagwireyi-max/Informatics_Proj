@@ -1,4 +1,4 @@
-﻿﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Phonefit.master.cs" Inherits="PhoneFit.PhoneFitMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Phonefit.master.cs" Inherits="PhoneFit.PhoneFitMaster" %>
 
 <!DOCTYPE html>
 
@@ -40,23 +40,23 @@
           </svg></button>
      </div>
       <div class="icon-row">
-        <a href="#" class="icon-btn" aria-label="Account"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+        <a href="Login.aspx" class="icon-btn" aria-label="Account" runat="server" id="lnkAccountIcon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <circle cx="12" cy="8" r="4" />
             <path d="M4 21c0-4 4-7 8-7s8 3 8 7" />
-          </svg></a>
-        <a href="#" class="icon-btn" aria-label="Wishlist"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path
-              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-          </svg><span class="count">3</span></a>
-        <a href="cart.aspx" class="icon-btn icon-btn--cart" aria-label="Cart"><svg width="20" height="20"
+          </svg>
+        </a>
+        <a href="cart.aspx" class="icon-btn icon-btn--cart" aria-label="Cart" runat="server" id="lnkCartIcon">
+          <svg width="20" height="20"
             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
             stroke-linejoin="round">
             <path d="M6 2l-2 5v13a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7l-2-5z" />
             <path d="M4 7h16" />
             <path d="M16 11a4 4 0 0 1-8 0" />
-          </svg><span class="count">2</span></a>
+          </svg>
+          <asp:Label ID="lblCartCount" runat="server" CssClass="count" Text="0"></asp:Label>
+        </a>
        <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false"> &#8801;
 </button>
       </div>
@@ -73,10 +73,19 @@
         </svg>Browse Phones</a>
       <div class="main-nav">
         <a href="Home.aspx">Home</a>
-        <a href="shop.aspx" aria-current="page">Shop Phones</a>
-        <a href="cart.aspx">Cart</a>
+        <a href="shop.aspx">Shop Phones</a>
+        <asp:HyperLink ID="lnkCart" runat="server" NavigateUrl="~/cart.aspx" Text="Cart" />
+        <asp:HyperLink ID="lnkInvoices" runat="server" NavigateUrl="~/Invoices.aspx" Text="Invoices" Visible="false" />
+        <asp:HyperLink ID="lnkAdmin" runat="server" NavigateUrl="~/Manager.aspx" Text="Admin" Visible="false" />
+        <asp:HyperLink ID="lnkReports" runat="server" NavigateUrl="~/Reports.aspx" Text="Reports" Visible="false" />
         <a href="Contact.aspx">Contact</a>
-        <a href="Login.aspx" onclick="openLoginModal()" class="Login-trigger-btn">Login</a>
+        <asp:Panel ID="pnlGuestLinks" runat="server" style="display:inline;">
+          <a href="Login.aspx" class="Login-trigger-btn">Login</a>
+        </asp:Panel>
+        <asp:Panel ID="pnlAuthLinks" runat="server" Visible="false" style="display:inline;">
+          <asp:Literal ID="litAccountLabel" runat="server"></asp:Literal>
+          · <a href="Logout.aspx">Logout</a>
+        </asp:Panel>
       </div>
       <span class="nav-cta">UP TO <strong>60% OFF</strong> ALL ITEMS</span>
     </div>
@@ -122,6 +131,8 @@
                 <ul>
                     <li><a runat="server" href="~/Login.aspx">Login</a></li>
                     <li><a runat="server" href="~/Registration.aspx">Register</a></li>
+                    <li><a runat="server" href="~/Invoices.aspx">Invoices</a></li>
+                    <li><a runat="server" href="~/Logout.aspx">Logout</a></li>
                 </ul>
             </div>
 

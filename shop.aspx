@@ -65,18 +65,17 @@
           </aside>--%>
 
           <div>
-            <div class="shop-toolbar">
-              <span class="count">Showing 5 smartphones</span>
-              <%--<div style="display:flex; gap:var(--s3); align-items:center">
+            <div class="shop-toolbar" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;">
+              <asp:Label ID="lblPhoneCount" runat="server" CssClass="count" Text="Showing smartphones"></asp:Label>
+              <div style="display:flex; gap:var(--s3); align-items:center">
                 <span style="font-size:var(--text-xs); color:var(--fg-mute); font-family:var(--ff-mono)">SORT</span>
-                <select>
-                  <option>Most popular</option>
-                  <option>Price: low to high</option>
-                  <option>Price: high to low</option>
-                  <option>Newest first</option>
-                  <option>Highest rated</option>
-                </select>
-              </div>--%>
+                <asp:DropDownList ID="ddlSort" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlSort_SelectedIndexChanged">
+                  <asp:ListItem Value="name_asc" Text="Name A–Z" Selected="True"></asp:ListItem>
+                  <asp:ListItem Value="name_desc" Text="Name Z–A"></asp:ListItem>
+                  <asp:ListItem Value="price_asc" Text="Price: low to high"></asp:ListItem>
+                  <asp:ListItem Value="price_desc" Text="Price: high to low"></asp:ListItem>
+                </asp:DropDownList>
+              </div>
             </div>
 
             <div class="shop-grid">
