@@ -42,7 +42,8 @@ namespace PhoneFit
 
             if (result == 0)
             {
-                lblMessage.Text = "Registration successful. The login page will be available soon.";
+                lblMessage.Text = "Registration successful. Redirecting to login…";
+                Response.Redirect("Login.aspx");
             }
             else if (result == 2)
             {

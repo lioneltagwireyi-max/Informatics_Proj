@@ -130,6 +130,8 @@
     <Content Include="Login.aspx" />
     <Content Include="Home.aspx" />
     <Content Include="Manager.aspx" />
+    <Content Include="CustomerActivity.aspx" />
+    <Content Include="cart.aspx" />
     <Content Include="MasterPagePreview.aspx" />
     <Content Include="Phonefit.Master" />
     <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
@@ -253,6 +255,20 @@
     <Compile Include="Manager.aspx.designer.cs">
       <DependentUpon>Manager.aspx</DependentUpon>
     </Compile>
+    <Compile Include="CustomerActivity.aspx.cs">
+      <DependentUpon>CustomerActivity.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomerActivity.aspx.designer.cs">
+      <DependentUpon>CustomerActivity.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="cart.aspx.cs">
+      <DependentUpon>cart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="cart.aspx.designer.cs">
+      <DependentUpon>cart.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\BackendServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -288,6 +304,7 @@
       <DependentUpon>Registration.aspx</DependentUpon>
     </Compile>
     <Compile Include="AppRoles.cs" />
+    <Compile Include="ActivityTracker.cs" />
     <Compile Include="SecrecyHash.cs" />
     <Compile Include="shop.aspx.cs">
       <DependentUpon>shop.aspx</DependentUpon>

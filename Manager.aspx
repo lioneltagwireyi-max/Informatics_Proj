@@ -125,6 +125,13 @@
                     Admin and Manager roles can access this page.
                 </p>
 
+                <p style="margin-top: 16px;">
+                    <a href="CustomerActivity.aspx"
+                       style="color: var(--indigo); font-weight: 600;">
+                        View customer web activity statistics →
+                    </a>
+                </p>
+
             </div>
         </section>
 

@@ -37,6 +37,8 @@ namespace PhoneFit
                 Session["UserID"] = loginResult.UserID;
                 Session["RoleName"] = loginResult.RoleName;
 
+                ActivityTracker.LogLogin(loginResult.UserID, loginResult.RoleName);
+
                 // Admin (and legacy Manager) → Manager.aspx; Customer → Home.aspx.
                 Response.Redirect(AppRoles.GetPostLoginRedirect(loginResult.RoleName));
                 return;

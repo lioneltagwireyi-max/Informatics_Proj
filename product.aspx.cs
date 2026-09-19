@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using PhoneFit.BackendServiceReference;
@@ -14,7 +12,6 @@ namespace PhoneFit
 
         protected void Page_Load(object sender, EventArgs e)
         {
-           
             int selectedID;
 
             if (!int.TryParse(Request.QueryString["id"], out selectedID))
@@ -44,7 +41,6 @@ namespace PhoneFit
                 lblWaterResistance.Text = specification.WaterResistance;
             }
 
-
             if (!IsPostBack)
             {
                 PhoneCatalogue selectedPhone = client.GetPhoneByID(selectedID);
@@ -61,6 +57,11 @@ namespace PhoneFit
                 lblBrandName.Text = selectedPhone.BrandName;
                 lblStartingPrice.Text = selectedPhone.StartingPrice.ToString();
                 lblStockQuantity.Text = selectedPhone.StockQuantity.ToString();
+
+                ActivityTracker.LogCustomerAction(
+                    ActivityTracker.ActionPageView,
+                    "product.aspx",
+                    "Viewed phone model " + selectedID);
             }
         }
 
@@ -96,6 +97,61 @@ namespace PhoneFit
 
                     lblStockQuantity.Text = selectedVariant.StockQuantity.ToString();
                 }
+            }
+        }
+
+        protected void btnAddToCart_Click(object sender, EventArgs e)
+        {
+            if (Session["UserID"] == null || !AppRoles.IsCustomerRole(Session["RoleName"] as string))
+            {
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+                lblMessage.Text = Session["UserID"] == null
+                    ? "Please log in before adding a phone to your cart."
+                    : "Only valid customer accounts can add products to the cart.";
+                return;
+            }
+
+            int userID = Convert.ToInt32(Session["UserID"]);
+
+            Page.Validate("CartGroup");
+            if (!Page.IsValid)
+            {
+                return;
+            }
+
+            int variantID;
+            if (!int.TryParse(hfSelectedVariantID.Value, out variantID))
+            {
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+                lblMessage.Text = "Please select a phone variant first.";
+                return;
+            }
+
+            int quantity;
+            if (!int.TryParse(txtQuantity.Text, out quantity) || quantity <= 0)
+            {
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+                lblMessage.Text = "Please enter a valid quantity.";
+                return;
+            }
+
+            bool phoneAdded = client.AddToCart(userID, variantID, quantity);
+
+            if (phoneAdded)
+            {
+                ActivityTracker.LogCustomerAction(
+                    ActivityTracker.ActionAddToCart,
+                    "product.aspx",
+                    "Variant " + variantID + " qty " + quantity);
+
+                lblMessage.ForeColor = System.Drawing.Color.Green;
+                lblMessage.Text = "The selected phone was added to your cart.";
+                txtQuantity.Text = "1";
+            }
+            else
+            {
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+                lblMessage.Text = "The item could not be added. Check the available stock.";
             }
         }
     }

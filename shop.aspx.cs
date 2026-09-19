@@ -16,6 +16,10 @@ namespace PhoneFit
         {
             if (!IsPostBack)
             {
+                ActivityTracker.LogCustomerAction(
+                    ActivityTracker.ActionPageView,
+                    "shop.aspx",
+                    "Browsed phone catalogue");
                 DisplayPhones();
             }
         }

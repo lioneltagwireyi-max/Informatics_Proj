@@ -81,11 +81,47 @@
 
           <div class="pdp-cta">
             <div class="qty">
-              <button type="button" data-act="-" aria-label="Decrease">−</button>
-              <input type="text" value="1" inputmode="numeric" aria-label="Quantity" />
-              <button type="button" data-act="+" aria-label="Increase">+</button>
+              <asp:TextBox
+                  ID="txtQuantity"
+                  runat="server"
+                  Text="1"
+                  TextMode="Number"
+                  min="1"
+                  aria-label="Quantity">
+              </asp:TextBox>
             </div>
-            <a href="cart.aspx" class="btn btn--indigo" style="flex:1; min-width:160px">Add to cart →</a>
+            <asp:Button
+                ID="btnAddToCart"
+                runat="server"
+                Text="Add to cart →"
+                CssClass="btn btn--indigo"
+                Style="flex:1; min-width:160px"
+                ValidationGroup="CartGroup"
+                OnClick="btnAddToCart_Click" />
+          </div>
+
+          <div style="margin-top: 12px;">
+            <asp:RequiredFieldValidator
+                ID="rfvQuantity"
+                runat="server"
+                ControlToValidate="txtQuantity"
+                ValidationGroup="CartGroup"
+                ErrorMessage="Please enter a quantity."
+                Display="Dynamic"
+                ForeColor="Red">
+            </asp:RequiredFieldValidator>
+            <asp:RangeValidator
+                ID="rvQuantity"
+                runat="server"
+                ControlToValidate="txtQuantity"
+                ValidationGroup="CartGroup"
+                Type="Integer"
+                MinimumValue="1"
+                MaximumValue="99"
+                ErrorMessage="Quantity must be between 1 and 99."
+                Display="Dynamic"
+                ForeColor="Red">
+            </asp:RangeValidator>
           </div>
 
           <div class="pdp-features">

@@ -6,6 +6,13 @@ namespace PhoneFit
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                ActivityTracker.LogCustomerAction(
+                    ActivityTracker.ActionPageView,
+                    "Home.aspx",
+                    "Viewed store home");
+            }
         }
     }
 }

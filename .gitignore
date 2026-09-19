@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# Runtime customer activity log
+App_Data/customer-activity.jsonl
