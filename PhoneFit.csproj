@@ -128,11 +128,48 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Login.aspx" />
+    <Content Include="Home.aspx" />
+    <Content Include="Manager.aspx" />
     <Content Include="MasterPagePreview.aspx" />
     <Content Include="Phonefit.Master" />
     <None Include="Scripts\jquery-3.4.1-vsdoc.js" />
     <Content Include="product.aspx" />
     <Content Include="Registration.aspx" />
+    <Content Include="Connected Services\BackendServiceReference\PhoneFit.BackendServiceReference.PhoneCatalogue.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\BackendServiceReference\PhoneFit.BackendServiceReference.PhoneVariant.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\BackendServiceReference\PhoneFit.BackendServiceReference.PhoneSpecification.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\BackendServiceReference\PhoneFit.BackendServiceReference.CartItemInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\BackendServiceReference\PhoneFit.BackendServiceReference.UserInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Connected Services\BackendServiceReference\PhoneFit.BackendServiceReference.LoginInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\BackendServiceReference\Service1.disco" />
+    <None Include="Connected Services\BackendServiceReference\configuration91.svcinfo" />
+    <None Include="Connected Services\BackendServiceReference\configuration.svcinfo" />
+    <None Include="Connected Services\BackendServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\BackendServiceReference\Service1.wsdl" />
+    <None Include="Connected Services\BackendServiceReference\Service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\BackendServiceReference\Service11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\BackendServiceReference\Service12.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -195,12 +232,31 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Home.aspx.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Home.aspx.designer.cs">
+      <DependentUpon>Home.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manager.aspx.cs">
+      <DependentUpon>Manager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manager.aspx.designer.cs">
+      <DependentUpon>Manager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\BackendServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="MasterPagePreview.aspx.cs">
       <DependentUpon>MasterPagePreview.aspx</DependentUpon>
@@ -231,7 +287,7 @@
     <Compile Include="Registration.aspx.designer.cs">
       <DependentUpon>Registration.aspx</DependentUpon>
     </Compile>
-	<Compile Include="AppRoles.cs" />
+    <Compile Include="AppRoles.cs" />
     <Compile Include="SecrecyHash.cs" />
     <Compile Include="shop.aspx.cs">
       <DependentUpon>shop.aspx</DependentUpon>
@@ -278,6 +334,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\BackendServiceReference\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

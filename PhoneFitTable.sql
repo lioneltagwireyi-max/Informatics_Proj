@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [Role] (
 	RoleID INT IDENTITY(1,1) NOT NULL,	   -- Role Identifier
-	RoleName VARCHAR(50) UNIQUE NOT NULL,  -- Customer or Admin/Manager
+	RoleName VARCHAR(50) UNIQUE NOT NULL,  -- Customer or Admin (legacy Manager also accepted in app)
 	RoleDescription VARCHAR(250) NOT NULL, -- Explanation of their roles
 	PRIMARY KEY(RoleID)
 );
