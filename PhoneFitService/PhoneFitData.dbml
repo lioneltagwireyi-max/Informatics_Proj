@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="PhoneFitDBConnectionString (PhoneFitService)" Class="PhoneFitDataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=&quot;|DataDirectory|\PhoneFitDBConnectionString (PhoneFitService).mdf&quot;;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="PhoneFitDBConnectionString__PhoneFitService_ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Brand" Member="Brands">
+    <Type Name="Brand">
+      <Column Name="BrandID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="BrandName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="BrandDescription" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Column Name="BrandIsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Brand_PhoneModel" Member="PhoneModels" ThisKey="BrandID" OtherKey="BrandID" Type="PhoneModel" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Cart" Member="Carts">
+    <Type Name="Cart">
+      <Column Name="CartID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Cart_CartItem" Member="CartItems" ThisKey="CartID" OtherKey="CartID" Type="CartItem" />
+      <Association Name="UserAccount_Cart" Member="UserAccount" ThisKey="UserID" OtherKey="UserID" Type="UserAccount" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CartItem" Member="CartItems">
+    <Type Name="CartItem">
+      <Column Name="CartItemID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CartID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="VariantID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DateAdded" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Cart_CartItem" Member="Cart" ThisKey="CartID" OtherKey="CartID" Type="Cart" IsForeignKey="true" />
+      <Association Name="PhoneVariant_CartItem" Member="PhoneVariant" ThisKey="VariantID" OtherKey="VariantID" Type="PhoneVariant" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CustomerOrder" Member="CustomerOrders">
+    <Type Name="CustomerOrder">
+      <Column Name="OrderID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OrderDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="TotalAmount" Type="System.Decimal" DbType="Decimal(12,2) NOT NULL" CanBeNull="false" />
+      <Column Name="OrderStatus" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Association Name="CustomerOrder_OrderItem" Member="OrderItems" ThisKey="OrderID" OtherKey="OrderID" Type="OrderItem" />
+      <Association Name="UserAccount_CustomerOrder" Member="UserAccount" ThisKey="UserID" OtherKey="UserID" Type="UserAccount" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OrderItem" Member="OrderItems">
+    <Type Name="OrderItem">
+      <Column Name="OrderItemID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="OrderID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="VariantID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Quantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UnitPrice" Type="System.Decimal" DbType="Decimal(12,2) NOT NULL" CanBeNull="false" />
+      <Association Name="CustomerOrder_OrderItem" Member="CustomerOrder" ThisKey="OrderID" OtherKey="OrderID" Type="CustomerOrder" IsForeignKey="true" />
+      <Association Name="PhoneVariant_OrderItem" Member="PhoneVariant" ThisKey="VariantID" OtherKey="VariantID" Type="PhoneVariant" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PhoneModel" Member="PhoneModels">
+    <Type Name="PhoneModel">
+      <Column Name="PhoneModelID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="BrandID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ModelName" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="OperatingSystem" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ReleaseYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="ImagePath" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="DateAdded" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="PhoneModel_PhoneSpecification" Member="PhoneSpecifications" ThisKey="PhoneModelID" OtherKey="PhoneModelID" Type="PhoneSpecification" />
+      <Association Name="PhoneModel_PhoneSuitability" Member="PhoneSuitabilities" ThisKey="PhoneModelID" OtherKey="PhoneModelID" Type="PhoneSuitability" />
+      <Association Name="PhoneModel_PhoneVariant" Member="PhoneVariants" ThisKey="PhoneModelID" OtherKey="PhoneModelID" Type="PhoneVariant" />
+      <Association Name="PhoneModel_RecommendationResult" Member="RecommendationResults" ThisKey="PhoneModelID" OtherKey="PhoneModelID" Type="RecommendationResult" />
+      <Association Name="Brand_PhoneModel" Member="Brand" ThisKey="BrandID" OtherKey="BrandID" Type="Brand" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PhoneSpecification" Member="PhoneSpecifications">
+    <Type Name="PhoneSpecification">
+      <Column Name="SpecificationID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PhoneModelID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Processor" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="ScreenSize" Type="System.Decimal" DbType="Decimal(4,2)" CanBeNull="true" />
+      <Column Name="ScreenType" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="RefreshRate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BatteryCapacity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RearCameraMP" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="FrontCameraMP" Type="System.Decimal" DbType="Decimal(6,2)" CanBeNull="true" />
+      <Column Name="Supports5G" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="DualSIM" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ExpandableStorage" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="WaterResistance" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Association Name="PhoneModel_PhoneSpecification" Member="PhoneModel" ThisKey="PhoneModelID" OtherKey="PhoneModelID" Type="PhoneModel" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PhoneSuitability" Member="PhoneSuitabilities">
+    <Type Name="PhoneSuitability">
+      <Column Name="SuitabilityID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PhoneModelID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UseCategoryID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SuitabilityScore" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Explanation" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="PhoneModel_PhoneSuitability" Member="PhoneModel" ThisKey="PhoneModelID" OtherKey="PhoneModelID" Type="PhoneModel" IsForeignKey="true" />
+      <Association Name="UseCategory_PhoneSuitability" Member="UseCategory" ThisKey="UseCategoryID" OtherKey="UseCategoryID" Type="UseCategory" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PhoneVariant" Member="PhoneVariants">
+    <Type Name="PhoneVariant">
+      <Column Name="VariantID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PhoneModelID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RAMGB" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="StorageGB" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Colour" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Price" Type="System.Decimal" DbType="Decimal(12,2) NOT NULL" CanBeNull="false" />
+      <Column Name="StockQuantity" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LowStockLevel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="PhoneVariant_CartItem" Member="CartItems" ThisKey="VariantID" OtherKey="VariantID" Type="CartItem" />
+      <Association Name="PhoneVariant_OrderItem" Member="OrderItems" ThisKey="VariantID" OtherKey="VariantID" Type="OrderItem" />
+      <Association Name="PhoneVariant_StockMovement" Member="StockMovements" ThisKey="VariantID" OtherKey="VariantID" Type="StockMovement" />
+      <Association Name="PhoneModel_PhoneVariant" Member="PhoneModel" ThisKey="PhoneModelID" OtherKey="PhoneModelID" Type="PhoneModel" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RecommendationAttempt" Member="RecommendationAttempts">
+    <Type Name="RecommendationAttempt">
+      <Column Name="AttemptID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MaximumBudget" Type="System.Decimal" DbType="Decimal(12,2) NOT NULL" CanBeNull="false" />
+      <Column Name="PreferredOS" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="MinimumStorageGB" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BatteryPriority" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CameraPriority" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="GamingPriority" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BusinessPriority" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="EverydayUsePriority" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="AttemptDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="RecommendationAttempt_RecommendationResult" Member="RecommendationResults" ThisKey="AttemptID" OtherKey="AttemptID" Type="RecommendationResult" />
+      <Association Name="UserAccount_RecommendationAttempt" Member="UserAccount" ThisKey="UserID" OtherKey="UserID" Type="UserAccount" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RecommendationResult" Member="RecommendationResults">
+    <Type Name="RecommendationResult">
+      <Column Name="ResultID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AttemptID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PhoneModelID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FitScore" Type="System.Decimal" DbType="Decimal(5,2) NOT NULL" CanBeNull="false" />
+      <Column Name="RankPosition" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Explanation" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="RecommendationAttempt_RecommendationResult" Member="RecommendationAttempt" ThisKey="AttemptID" OtherKey="AttemptID" Type="RecommendationAttempt" IsForeignKey="true" />
+      <Association Name="PhoneModel_RecommendationResult" Member="PhoneModel" ThisKey="PhoneModelID" OtherKey="PhoneModelID" Type="PhoneModel" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Role" Member="Roles">
+    <Type Name="Role">
+      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RoleName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="RoleDescription" Type="System.String" DbType="VarChar(250) NOT NULL" CanBeNull="false" />
+      <Association Name="Role_UserAccount" Member="UserAccounts" ThisKey="RoleID" OtherKey="RoleID" Type="UserAccount" />
+    </Type>
+  </Table>
+  <Table Name="dbo.StockMovement" Member="StockMovements">
+    <Type Name="StockMovement">
+      <Column Name="StockMovementID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="VariantID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ChangedByUserID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MovementType" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="QuantityChange" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MovementDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Notes" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Association Name="PhoneVariant_StockMovement" Member="PhoneVariant" ThisKey="VariantID" OtherKey="VariantID" Type="PhoneVariant" IsForeignKey="true" />
+      <Association Name="UserAccount_StockMovement" Member="UserAccount" ThisKey="ChangedByUserID" OtherKey="UserID" Type="UserAccount" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UseCategory" Member="UseCategories">
+    <Type Name="UseCategory">
+      <Column Name="UseCategoryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="CategoryName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="UseCategory_PhoneSuitability" Member="PhoneSuitabilities" ThisKey="UseCategoryID" OtherKey="UseCategoryID" Type="PhoneSuitability" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserAccount" Member="UserAccounts">
+    <Type Name="UserAccount">
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserEmail" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="UserPasswordHash" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="UserFirstName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="UserSurname" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="UserPhoneNumber" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="UserIsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="UserAccountCreated" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="UserAccount_Cart" Member="Carts" ThisKey="UserID" OtherKey="UserID" Type="Cart" />
+      <Association Name="UserAccount_CustomerOrder" Member="CustomerOrders" ThisKey="UserID" OtherKey="UserID" Type="CustomerOrder" />
+      <Association Name="UserAccount_RecommendationAttempt" Member="RecommendationAttempts" ThisKey="UserID" OtherKey="UserID" Type="RecommendationAttempt" />
+      <Association Name="UserAccount_StockMovement" Member="StockMovements" ThisKey="UserID" OtherKey="ChangedByUserID" Type="StockMovement" />
+      <Association Name="Role_UserAccount" Member="Role" ThisKey="RoleID" OtherKey="RoleID" Type="Role" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

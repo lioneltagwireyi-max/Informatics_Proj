@@ -1,0 +1,6 @@
+C:\Users\Lionel\Documents\GitHub\PhoneFitService\bin\PhoneFitService.dll.config
+C:\Users\Lionel\Documents\GitHub\PhoneFitService\bin\PhoneFitService.dll
+C:\Users\Lionel\Documents\GitHub\PhoneFitService\bin\PhoneFitService.pdb
+C:\Users\Lionel\Documents\GitHub\PhoneFitService\obj\Debug\PhoneFitService.csproj.CoreCompileInputs.cache
+C:\Users\Lionel\Documents\GitHub\PhoneFitService\obj\Debug\PhoneFitService.dll
+C:\Users\Lionel\Documents\GitHub\PhoneFitService\obj\Debug\PhoneFitService.pdb
