@@ -10,6 +10,7 @@
         protected global::System.Web.UI.WebControls.HyperLink lnkCart;
         protected global::System.Web.UI.WebControls.HyperLink lnkInvoices;
         protected global::System.Web.UI.WebControls.HyperLink lnkAdmin;
+        protected global::System.Web.UI.WebControls.HyperLink lnkProducts;
         protected global::System.Web.UI.WebControls.HyperLink lnkReports;
         protected global::System.Web.UI.WebControls.Panel pnlGuestLinks;
         protected global::System.Web.UI.WebControls.Panel pnlAuthLinks;

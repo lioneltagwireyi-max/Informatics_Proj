@@ -60,6 +60,138 @@ namespace PhoneFitService
 
         [OperationContract]
         ReportSummary GetReportSummary(DateTime fromDate, DateTime toDate);
+
+        [OperationContract]
+        List<BrandInfo> GetBrands();
+
+        [OperationContract]
+        List<ProductAdminInfo> GetAllProductsForAdmin();
+
+        [OperationContract]
+        ProductAdminInfo GetProductForAdmin(int phoneModelID);
+
+        [OperationContract]
+        int AddProduct(ProductSaveInfo product);
+
+        [OperationContract]
+        bool UpdateProduct(ProductSaveInfo product);
+
+        [OperationContract]
+        bool DeleteProduct(int phoneModelID);
+
+        [OperationContract]
+        int EnsureMinimumCatalogue(int minimumCount);
+    }
+
+    [DataContract]
+    public class BrandInfo
+    {
+        [DataMember]
+        public int BrandID { get; set; }
+
+        [DataMember]
+        public string BrandName { get; set; }
+    }
+
+    [DataContract]
+    public class ProductAdminInfo
+    {
+        [DataMember]
+        public int PhoneModelID { get; set; }
+
+        [DataMember]
+        public int BrandID { get; set; }
+
+        [DataMember]
+        public string BrandName { get; set; }
+
+        [DataMember]
+        public string ModelName { get; set; }
+
+        [DataMember]
+        public string OperatingSystem { get; set; }
+
+        [DataMember]
+        public int ReleaseYear { get; set; }
+
+        [DataMember]
+        public string Description { get; set; }
+
+        [DataMember]
+        public string ImagePath { get; set; }
+
+        [DataMember]
+        public bool IsActive { get; set; }
+
+        [DataMember]
+        public DateTime DateAdded { get; set; }
+
+        [DataMember]
+        public decimal StartingPrice { get; set; }
+
+        [DataMember]
+        public int StockQuantity { get; set; }
+
+        [DataMember]
+        public int VariantID { get; set; }
+
+        [DataMember]
+        public int RAMGB { get; set; }
+
+        [DataMember]
+        public int StorageGB { get; set; }
+
+        [DataMember]
+        public string Colour { get; set; }
+    }
+
+    [DataContract]
+    public class ProductSaveInfo
+    {
+        [DataMember]
+        public int PhoneModelID { get; set; }
+
+        [DataMember]
+        public int BrandID { get; set; }
+
+        [DataMember]
+        public string BrandName { get; set; }
+
+        [DataMember]
+        public string ModelName { get; set; }
+
+        [DataMember]
+        public string OperatingSystem { get; set; }
+
+        [DataMember]
+        public int ReleaseYear { get; set; }
+
+        [DataMember]
+        public string Description { get; set; }
+
+        [DataMember]
+        public string ImagePath { get; set; }
+
+        [DataMember]
+        public bool IsActive { get; set; }
+
+        [DataMember]
+        public int VariantID { get; set; }
+
+        [DataMember]
+        public int RAMGB { get; set; }
+
+        [DataMember]
+        public int StorageGB { get; set; }
+
+        [DataMember]
+        public string Colour { get; set; }
+
+        [DataMember]
+        public decimal Price { get; set; }
+
+        [DataMember]
+        public int StockQuantity { get; set; }
     }
 
     [DataContract]

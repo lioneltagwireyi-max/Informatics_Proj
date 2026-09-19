@@ -880,5 +880,415 @@ namespace PhoneFitService
                 UsersRegisteredPerDay = usersPerDay
             };
         }
+
+        public List<BrandInfo> GetBrands()
+        {
+            return
+                (from b in db.Brands
+                 where b.BrandIsActive == true
+                 orderby b.BrandName
+                 select new BrandInfo
+                 {
+                     BrandID = b.BrandID,
+                     BrandName = b.BrandName
+                 }).ToList();
+        }
+
+        public List<ProductAdminInfo> GetAllProductsForAdmin()
+        {
+            var phones =
+                (from phone in db.PhoneModels
+                 join brand in db.Brands on phone.BrandID equals brand.BrandID
+                 orderby phone.ModelName
+                 select new { phone, brand }).ToList();
+
+            var result = new List<ProductAdminInfo>();
+            foreach (var row in phones)
+            {
+                result.Add(ToProductAdminInfo(row.phone, row.brand.BrandName));
+            }
+            return result;
+        }
+
+        public ProductAdminInfo GetProductForAdmin(int phoneModelID)
+        {
+            var row =
+                (from phone in db.PhoneModels
+                 join brand in db.Brands on phone.BrandID equals brand.BrandID
+                 where phone.PhoneModelID == phoneModelID
+                 select new { phone, brand }).SingleOrDefault();
+
+            if (row == null)
+            {
+                return null;
+            }
+
+            return ToProductAdminInfo(row.phone, row.brand.BrandName);
+        }
+
+        public int AddProduct(ProductSaveInfo product)
+        {
+            if (product == null
+                || string.IsNullOrWhiteSpace(product.ModelName)
+                || string.IsNullOrWhiteSpace(product.OperatingSystem)
+                || string.IsNullOrWhiteSpace(product.Description))
+            {
+                return 0;
+            }
+
+            int brandId = ResolveBrandId(product.BrandID, product.BrandName);
+            if (brandId <= 0)
+            {
+                return 0;
+            }
+
+            string imagePath = string.IsNullOrWhiteSpace(product.ImagePath)
+                ? "assets/img/phones/placeholder.png"
+                : product.ImagePath.Trim();
+
+            var model = new PhoneModel
+            {
+                BrandID = brandId,
+                ModelName = product.ModelName.Trim(),
+                OperatingSystem = product.OperatingSystem.Trim(),
+                ReleaseYear = product.ReleaseYear > 0 ? product.ReleaseYear : (int?)null,
+                Description = product.Description.Trim(),
+                ImagePath = imagePath,
+                IsActive = product.IsActive,
+                DateAdded = DateTime.Now
+            };
+
+            db.PhoneModels.InsertOnSubmit(model);
+            db.SubmitChanges();
+
+            var variant = new PhoneVariant
+            {
+                PhoneModelID = model.PhoneModelID,
+                RAMGB = product.RAMGB > 0 ? product.RAMGB : 8,
+                StorageGB = product.StorageGB > 0 ? product.StorageGB : 128,
+                Colour = string.IsNullOrWhiteSpace(product.Colour) ? "Black" : product.Colour.Trim(),
+                Price = product.Price > 0 ? product.Price : 4999m,
+                StockQuantity = product.StockQuantity >= 0 ? product.StockQuantity : 10,
+                LowStockLevel = 5,
+                IsActive = product.IsActive
+            };
+
+            db.PhoneVariants.InsertOnSubmit(variant);
+            db.SubmitChanges();
+
+            return model.PhoneModelID;
+        }
+
+        public bool UpdateProduct(ProductSaveInfo product)
+        {
+            if (product == null || product.PhoneModelID <= 0
+                || string.IsNullOrWhiteSpace(product.ModelName)
+                || string.IsNullOrWhiteSpace(product.OperatingSystem)
+                || string.IsNullOrWhiteSpace(product.Description))
+            {
+                return false;
+            }
+
+            var model =
+                (from p in db.PhoneModels
+                 where p.PhoneModelID == product.PhoneModelID
+                 select p).SingleOrDefault();
+
+            if (model == null)
+            {
+                return false;
+            }
+
+            int brandId = ResolveBrandId(product.BrandID, product.BrandName);
+            if (brandId <= 0)
+            {
+                return false;
+            }
+
+            model.BrandID = brandId;
+            model.ModelName = product.ModelName.Trim();
+            model.OperatingSystem = product.OperatingSystem.Trim();
+            model.ReleaseYear = product.ReleaseYear > 0 ? product.ReleaseYear : (int?)null;
+            model.Description = product.Description.Trim();
+            model.ImagePath = string.IsNullOrWhiteSpace(product.ImagePath)
+                ? model.ImagePath
+                : product.ImagePath.Trim();
+            model.IsActive = product.IsActive;
+
+            PhoneVariant variant = null;
+            if (product.VariantID > 0)
+            {
+                variant =
+                    (from v in db.PhoneVariants
+                     where v.VariantID == product.VariantID
+                     && v.PhoneModelID == product.PhoneModelID
+                     select v).SingleOrDefault();
+            }
+
+            if (variant == null)
+            {
+                variant =
+                    (from v in db.PhoneVariants
+                     where v.PhoneModelID == product.PhoneModelID
+                     orderby v.VariantID
+                     select v).FirstOrDefault();
+            }
+
+            if (variant == null)
+            {
+                variant = new PhoneVariant
+                {
+                    PhoneModelID = model.PhoneModelID,
+                    LowStockLevel = 5
+                };
+                db.PhoneVariants.InsertOnSubmit(variant);
+            }
+
+            variant.RAMGB = product.RAMGB > 0 ? product.RAMGB : variant.RAMGB;
+            variant.StorageGB = product.StorageGB > 0 ? product.StorageGB : variant.StorageGB;
+            variant.Colour = string.IsNullOrWhiteSpace(product.Colour) ? variant.Colour : product.Colour.Trim();
+            if (string.IsNullOrWhiteSpace(variant.Colour))
+            {
+                variant.Colour = "Black";
+            }
+            variant.Price = product.Price >= 0 ? product.Price : variant.Price;
+            variant.StockQuantity = product.StockQuantity >= 0 ? product.StockQuantity : variant.StockQuantity;
+            variant.IsActive = product.IsActive;
+
+            db.SubmitChanges();
+            return true;
+        }
+
+        public bool DeleteProduct(int phoneModelID)
+        {
+            var model =
+                (from p in db.PhoneModels
+                 where p.PhoneModelID == phoneModelID
+                 select p).SingleOrDefault();
+
+            if (model == null)
+            {
+                return false;
+            }
+
+            // Soft-delete so order history / FK rows stay intact.
+            model.IsActive = false;
+
+            var variants =
+                (from v in db.PhoneVariants
+                 where v.PhoneModelID == phoneModelID
+                 select v).ToList();
+
+            foreach (var variant in variants)
+            {
+                variant.IsActive = false;
+            }
+
+            db.SubmitChanges();
+            return true;
+        }
+
+        public int EnsureMinimumCatalogue(int minimumCount)
+        {
+            int target = minimumCount < 20 ? 20 : minimumCount;
+            int current = db.PhoneModels.Count();
+            if (current >= target)
+            {
+                return current;
+            }
+
+            EnsureSeedBrands();
+
+            var brandIds =
+                (from b in db.Brands
+                 where b.BrandIsActive
+                 select new { b.BrandID, b.BrandName }).ToList();
+
+            Func<string, int> brandIdOf = name =>
+            {
+                var match = brandIds.FirstOrDefault(b =>
+                    string.Equals(b.BrandName, name, StringComparison.OrdinalIgnoreCase));
+                return match != null ? match.BrandID : brandIds[0].BrandID;
+            };
+
+            var seed = new[]
+            {
+                new { Brand = "Apple", Model = "iPhone 13", OS = "iOS", Year = 2021, Price = 12999m, Desc = "Reliable Apple flagship with strong cameras and long software support." },
+                new { Brand = "Apple", Model = "iPhone 14", OS = "iOS", Year = 2022, Price = 14999m, Desc = "Improved durability and crash detection in a familiar iPhone design." },
+                new { Brand = "Apple", Model = "iPhone 15", OS = "iOS", Year = 2023, Price = 17999m, Desc = "USB-C iPhone with Dynamic Island and brighter display." },
+                new { Brand = "Apple", Model = "iPhone SE (2022)", OS = "iOS", Year = 2022, Price = 7999m, Desc = "Compact Touch ID iPhone with modern A-series performance." },
+                new { Brand = "Samsung", Model = "Galaxy S23", OS = "Android", Year = 2023, Price = 15999m, Desc = "Compact Samsung flagship with excellent cameras." },
+                new { Brand = "Samsung", Model = "Galaxy S24", OS = "Android", Year = 2024, Price = 17999m, Desc = "AI-assisted Galaxy flagship with bright AMOLED display." },
+                new { Brand = "Samsung", Model = "Galaxy A54", OS = "Android", Year = 2023, Price = 6999m, Desc = "Mid-range Galaxy with solid battery life and clean software." },
+                new { Brand = "Samsung", Model = "Galaxy A35", OS = "Android", Year = 2024, Price = 5999m, Desc = "Affordable Samsung all-rounder for everyday use." },
+                new { Brand = "Google", Model = "Pixel 7", OS = "Android", Year = 2022, Price = 9999m, Desc = "Google camera phone with clean Pixel software." },
+                new { Brand = "Google", Model = "Pixel 8", OS = "Android", Year = 2023, Price = 12999m, Desc = "Tensor-powered Pixel with strong computational photography." },
+                new { Brand = "Google", Model = "Pixel 8a", OS = "Android", Year = 2024, Price = 8999m, Desc = "Value Pixel with flagship camera features." },
+                new { Brand = "Xiaomi", Model = "Redmi Note 13", OS = "Android", Year = 2024, Price = 4499m, Desc = "Budget Xiaomi phone with high refresh display." },
+                new { Brand = "Xiaomi", Model = "Xiaomi 14", OS = "Android", Year = 2024, Price = 13999m, Desc = "Leica-tuned Xiaomi flagship with fast charging." },
+                new { Brand = "Huawei", Model = "Pura 70", OS = "HarmonyOS", Year = 2024, Price = 16999m, Desc = "Huawei imaging phone with premium build." },
+                new { Brand = "OnePlus", Model = "Nord 3", OS = "Android", Year = 2023, Price = 7499m, Desc = "Fast-charging mid-range OnePlus with smooth OxygenOS feel." },
+                new { Brand = "OnePlus", Model = "12R", OS = "Android", Year = 2024, Price = 11999m, Desc = "Performance-focused OnePlus with bright display." },
+                new { Brand = "Motorola", Model = "Edge 40", OS = "Android", Year = 2023, Price = 8999m, Desc = "Slim Motorola with clean near-stock Android." },
+                new { Brand = "Nokia", Model = "G60", OS = "Android", Year = 2022, Price = 3999m, Desc = "Durable Nokia with long software update promise." },
+                new { Brand = "Sony", Model = "Xperia 5 V", OS = "Android", Year = 2023, Price = 15999m, Desc = "Compact cinema-oriented Sony smartphone." },
+                new { Brand = "Oppo", Model = "Reno 11", OS = "Android", Year = 2024, Price = 8499m, Desc = "Stylish Oppo with strong selfie camera focus." },
+                new { Brand = "Samsung", Model = "Galaxy Z Flip5", OS = "Android", Year = 2023, Price = 21999m, Desc = "Foldable Galaxy with large cover screen." },
+                new { Brand = "Apple", Model = "iPhone 15 Pro", OS = "iOS", Year = 2023, Price = 24999m, Desc = "Titanium Pro iPhone with Action button and USB-C." }
+            };
+
+            int added = 0;
+            foreach (var item in seed)
+            {
+                bool exists =
+                    (from p in db.PhoneModels
+                     where p.ModelName == item.Model
+                     select p).Any();
+
+                if (exists)
+                {
+                    continue;
+                }
+
+                if (db.PhoneModels.Count() >= target)
+                {
+                    break;
+                }
+
+                var model = new PhoneModel
+                {
+                    BrandID = brandIdOf(item.Brand),
+                    ModelName = item.Model,
+                    OperatingSystem = item.OS,
+                    ReleaseYear = item.Year,
+                    Description = item.Desc,
+                    ImagePath = "assets/img/phones/placeholder.png",
+                    IsActive = true,
+                    DateAdded = DateTime.Now
+                };
+                db.PhoneModels.InsertOnSubmit(model);
+                db.SubmitChanges();
+
+                db.PhoneVariants.InsertOnSubmit(new PhoneVariant
+                {
+                    PhoneModelID = model.PhoneModelID,
+                    RAMGB = 8,
+                    StorageGB = 128,
+                    Colour = "Black",
+                    Price = item.Price,
+                    StockQuantity = 25,
+                    LowStockLevel = 5,
+                    IsActive = true
+                });
+                db.SubmitChanges();
+                added++;
+            }
+
+            return db.PhoneModels.Count();
+        }
+
+        private void EnsureSeedBrands()
+        {
+            string[] names =
+            {
+                "Apple", "Samsung", "Google", "Xiaomi", "Huawei",
+                "OnePlus", "Motorola", "Nokia", "Sony", "Oppo"
+            };
+
+            foreach (string name in names)
+            {
+                bool exists =
+                    (from b in db.Brands
+                     where b.BrandName == name
+                     select b).Any();
+
+                if (!exists)
+                {
+                    db.Brands.InsertOnSubmit(new Brand
+                    {
+                        BrandName = name,
+                        BrandDescription = name + " smartphones",
+                        BrandIsActive = true
+                    });
+                }
+            }
+
+            db.SubmitChanges();
+        }
+
+        private int ResolveBrandId(int brandId, string brandName)
+        {
+            if (brandId > 0)
+            {
+                var existing =
+                    (from b in db.Brands
+                     where b.BrandID == brandId
+                     select b).SingleOrDefault();
+                if (existing != null)
+                {
+                    return existing.BrandID;
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(brandName))
+            {
+                return 0;
+            }
+
+            string name = brandName.Trim();
+            var byName =
+                (from b in db.Brands
+                 where b.BrandName == name
+                 select b).SingleOrDefault();
+
+            if (byName != null)
+            {
+                return byName.BrandID;
+            }
+
+            var created = new Brand
+            {
+                BrandName = name,
+                BrandDescription = name + " smartphones",
+                BrandIsActive = true
+            };
+            db.Brands.InsertOnSubmit(created);
+            db.SubmitChanges();
+            return created.BrandID;
+        }
+
+        private ProductAdminInfo ToProductAdminInfo(PhoneModel phone, string brandName)
+        {
+            var variant =
+                (from v in db.PhoneVariants
+                 where v.PhoneModelID == phone.PhoneModelID
+                 orderby v.IsActive descending, v.Price ascending
+                 select v).FirstOrDefault();
+
+            int stock =
+                (from v in db.PhoneVariants
+                 where v.PhoneModelID == phone.PhoneModelID && v.IsActive
+                 select (int?)v.StockQuantity).Sum() ?? 0;
+
+            return new ProductAdminInfo
+            {
+                PhoneModelID = phone.PhoneModelID,
+                BrandID = phone.BrandID,
+                BrandName = brandName,
+                ModelName = phone.ModelName,
+                OperatingSystem = phone.OperatingSystem,
+                ReleaseYear = phone.ReleaseYear ?? 0,
+                Description = phone.Description,
+                ImagePath = phone.ImagePath,
+                IsActive = phone.IsActive,
+                DateAdded = phone.DateAdded,
+                StartingPrice = variant != null ? variant.Price : 0,
+                StockQuantity = stock,
+                VariantID = variant != null ? variant.VariantID : 0,
+                RAMGB = variant != null ? variant.RAMGB : 8,
+                StorageGB = variant != null ? variant.StorageGB : 128,
+                Colour = variant != null ? variant.Colour : "Black"
+            };
+        }
     }
 }

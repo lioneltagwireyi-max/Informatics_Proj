@@ -126,6 +126,10 @@
                 </p>
 
                 <p style="margin-top: 16px;">
+                    <a href="Products.aspx"
+                       style="color: var(--indigo); font-weight: 600; margin-right: 18px;">
+                        Product management →
+                    </a>
                     <a href="Reports.aspx"
                        style="color: var(--indigo); font-weight: 600; margin-right: 18px;">
                         Sales &amp; user reports →

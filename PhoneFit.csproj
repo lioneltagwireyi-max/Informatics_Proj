@@ -133,6 +133,9 @@
     <Content Include="Manager.aspx" />
     <Content Include="CustomerActivity.aspx" />
     <Content Include="Reports.aspx" />
+    <Content Include="Products.aspx" />
+    <Content Include="ProductAdd.aspx" />
+    <Content Include="ProductEdit.aspx" />
     <Content Include="cart.aspx" />
     <Content Include="Checkout.aspx" />
     <Content Include="Invoice.aspx" />
@@ -281,6 +284,27 @@
     <Compile Include="Reports.aspx.designer.cs">
       <DependentUpon>Reports.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Products.aspx.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Products.aspx.designer.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ProductAdd.aspx.cs">
+      <DependentUpon>ProductAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProductAdd.aspx.designer.cs">
+      <DependentUpon>ProductAdd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ProductEdit.aspx.cs">
+      <DependentUpon>ProductEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ProductEdit.aspx.designer.cs">
+      <DependentUpon>ProductEdit.aspx</DependentUpon>
+    </Compile>
     <Compile Include="cart.aspx.cs">
       <DependentUpon>cart.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -315,6 +339,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Connected Services\BackendServiceReference\OrderContracts.cs" />
+    <Compile Include="Connected Services\BackendServiceReference\ProductContracts.cs" />
     <Compile Include="MasterPagePreview.aspx.cs">
       <DependentUpon>MasterPagePreview.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

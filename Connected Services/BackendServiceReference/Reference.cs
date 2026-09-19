@@ -1481,6 +1481,27 @@ namespace PhoneFit.BackendServiceReference {
 
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetReportSummary", ReplyAction="http://tempuri.org/IService1/GetReportSummaryResponse")]
         PhoneFit.BackendServiceReference.ReportSummary GetReportSummary(System.DateTime fromDate, System.DateTime toDate);
+
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetBrands", ReplyAction="http://tempuri.org/IService1/GetBrandsResponse")]
+        PhoneFit.BackendServiceReference.BrandInfo[] GetBrands();
+
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetAllProductsForAdmin", ReplyAction="http://tempuri.org/IService1/GetAllProductsForAdminResponse")]
+        PhoneFit.BackendServiceReference.ProductAdminInfo[] GetAllProductsForAdmin();
+
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetProductForAdmin", ReplyAction="http://tempuri.org/IService1/GetProductForAdminResponse")]
+        PhoneFit.BackendServiceReference.ProductAdminInfo GetProductForAdmin(int phoneModelID);
+
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/AddProduct", ReplyAction="http://tempuri.org/IService1/AddProductResponse")]
+        int AddProduct(PhoneFit.BackendServiceReference.ProductSaveInfo product);
+
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/UpdateProduct", ReplyAction="http://tempuri.org/IService1/UpdateProductResponse")]
+        bool UpdateProduct(PhoneFit.BackendServiceReference.ProductSaveInfo product);
+
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/DeleteProduct", ReplyAction="http://tempuri.org/IService1/DeleteProductResponse")]
+        bool DeleteProduct(int phoneModelID);
+
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/EnsureMinimumCatalogue", ReplyAction="http://tempuri.org/IService1/EnsureMinimumCatalogueResponse")]
+        int EnsureMinimumCatalogue(int minimumCount);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1620,6 +1641,34 @@ namespace PhoneFit.BackendServiceReference {
 
         public PhoneFit.BackendServiceReference.ReportSummary GetReportSummary(System.DateTime fromDate, System.DateTime toDate) {
             return base.Channel.GetReportSummary(fromDate, toDate);
+        }
+
+        public PhoneFit.BackendServiceReference.BrandInfo[] GetBrands() {
+            return base.Channel.GetBrands();
+        }
+
+        public PhoneFit.BackendServiceReference.ProductAdminInfo[] GetAllProductsForAdmin() {
+            return base.Channel.GetAllProductsForAdmin();
+        }
+
+        public PhoneFit.BackendServiceReference.ProductAdminInfo GetProductForAdmin(int phoneModelID) {
+            return base.Channel.GetProductForAdmin(phoneModelID);
+        }
+
+        public int AddProduct(PhoneFit.BackendServiceReference.ProductSaveInfo product) {
+            return base.Channel.AddProduct(product);
+        }
+
+        public bool UpdateProduct(PhoneFit.BackendServiceReference.ProductSaveInfo product) {
+            return base.Channel.UpdateProduct(product);
+        }
+
+        public bool DeleteProduct(int phoneModelID) {
+            return base.Channel.DeleteProduct(phoneModelID);
+        }
+
+        public int EnsureMinimumCatalogue(int minimumCount) {
+            return base.Channel.EnsureMinimumCatalogue(minimumCount);
         }
     }
 }

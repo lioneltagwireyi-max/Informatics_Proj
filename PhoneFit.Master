@@ -9,12 +9,12 @@
   <title>Shop — PhoneFit</title>
   <meta name="description"
     content="Browse the full PhoneFit catalogue — smartphones, laptops, cameras, audio, wearables, and gaming. Filter by brand, price, and rating." />
-  <meta name="theme-color" content="#4F46E5" />
+  <meta name="theme-color" content="#0F766E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Outfit:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" />
-  <link rel="stylesheet" href="assets/css/styles.css?v=3" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=4" />
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -77,6 +77,7 @@
         <asp:HyperLink ID="lnkCart" runat="server" NavigateUrl="~/cart.aspx" Text="Cart" />
         <asp:HyperLink ID="lnkInvoices" runat="server" NavigateUrl="~/Invoices.aspx" Text="Invoices" Visible="false" />
         <asp:HyperLink ID="lnkAdmin" runat="server" NavigateUrl="~/Manager.aspx" Text="Admin" Visible="false" />
+        <asp:HyperLink ID="lnkProducts" runat="server" NavigateUrl="~/Products.aspx" Text="Products" Visible="false" />
         <asp:HyperLink ID="lnkReports" runat="server" NavigateUrl="~/Reports.aspx" Text="Reports" Visible="false" />
         <a href="Contact.aspx">Contact</a>
         <asp:Panel ID="pnlGuestLinks" runat="server" style="display:inline;">

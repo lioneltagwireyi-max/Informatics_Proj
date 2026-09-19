@@ -15,6 +15,7 @@ namespace PhoneFit
             pnlGuestLinks.Visible = !loggedIn;
             pnlAuthLinks.Visible = loggedIn;
             lnkAdmin.Visible = AppRoles.IsAdminRole(roleName);
+            lnkProducts.Visible = AppRoles.IsAdminRole(roleName);
             lnkInvoices.Visible = AppRoles.IsCustomerRole(roleName);
             lnkCart.Visible = !AppRoles.IsAdminRole(roleName);
             lnkReports.Visible = AppRoles.IsAdminRole(roleName);
