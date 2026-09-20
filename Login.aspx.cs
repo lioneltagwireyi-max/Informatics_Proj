@@ -30,25 +30,29 @@ namespace PhoneFit
 
             string hashedPassword = SecrecyHash.hashFunction(password);
 
-            string loginResult = client.LoginUser(email, hashedPassword);
+            LoginInfo loginResult = client.LoginUser(email, hashedPassword);
 
-            if (loginResult == "Customer")
+            if (loginResult.LoginStatus == "Success")
             {
-                Response.Redirect("Home.aspx");
+                Session["UserID"] = loginResult.UserID;
+                Session["RoleName"] = loginResult.RoleName;
+
+                ActivityTracker.LogLogin(loginResult.UserID, loginResult.RoleName);
+
+                // Admin (and legacy Manager) → Manager.aspx; Customer → Home.aspx.
+                Response.Redirect(AppRoles.GetPostLoginRedirect(loginResult.RoleName));
+                return;
             }
-            else if (loginResult == "Manager")
+
+            if (loginResult.LoginStatus == "Inactive")
             {
-                lblMessage.Text = "Manager login successful. Dashboard will be added soon.";
-            }
-            else if (loginResult == "Inactive")
-            {
+                lblMessage.ForeColor = System.Drawing.Color.Red;
                 lblMessage.Text = "This account has been disabled.";
+                return;
             }
-            else
-            {
-                lblMessage.Text = "The email address or password is incorrect.";
-            }
-        }
 
+            lblMessage.ForeColor = System.Drawing.Color.Red;
+            lblMessage.Text = "The email address or password is incorrect.";
+        }
     }
 }
