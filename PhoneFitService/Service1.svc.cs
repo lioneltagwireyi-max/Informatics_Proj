@@ -815,7 +815,9 @@ namespace PhoneFitService
 
         public ReportSummary GetReportSummary(DateTime fromDate, DateTime toDate)
         {
-            DateTime from = fromDate == DateTime.MinValue
+            // Do not name this local "from" — it collides with the LINQ query
+            // keyword and causes CS1525 (Invalid expression term '&&').
+            DateTime fromInclusive = fromDate == DateTime.MinValue
                 ? DateTime.Now.AddDays(-30).Date
                 : fromDate.Date;
             DateTime toExclusive = toDate == DateTime.MinValue
@@ -824,7 +826,7 @@ namespace PhoneFitService
 
             var ordersInRange =
                 (from o in db.CustomerOrders
-                 where o.OrderDate >= from && o.OrderDate < toExclusive
+                 where o.OrderDate >= fromInclusive && o.OrderDate < toExclusive
                  select o).ToList();
 
             var orderIds = ordersInRange.Select(o => o.OrderID).ToList();
@@ -848,7 +850,7 @@ namespace PhoneFitService
 
             var usersPerDay =
                 (from u in db.UserAccounts
-                 where u.UserAccountCreated >= from && u.UserAccountCreated < toExclusive
+                 where u.UserAccountCreated >= fromInclusive && u.UserAccountCreated < toExclusive
                  group u by u.UserAccountCreated.Date into g
                  orderby g.Key
                  select new UsersPerDayInfo
@@ -867,7 +869,7 @@ namespace PhoneFitService
                 DistinctProductsSold = soldVariantIds.Count,
                 RegisteredUsersInRange =
                     (from u in db.UserAccounts
-                     where u.UserAccountCreated >= from && u.UserAccountCreated < toExclusive
+                     where u.UserAccountCreated >= fromInclusive && u.UserAccountCreated < toExclusive
                      select u).Count(),
                 OrdersInRange = ordersInRange.Count,
                 RevenueInRange = ordersInRange.Sum(o => o.TotalAmount),
