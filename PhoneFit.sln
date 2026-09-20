@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneFit", "PhoneFit.csproj
 		{03228F69-3886-4A03-9F76-00E5B4B6514C} = {03228F69-3886-4A03-9F76-00E5B4B6514C}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneFitService", "..\PhoneFitService\PhoneFitService.csproj", "{03228F69-3886-4A03-9F76-00E5B4B6514C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneFitService", "PhoneFitService\PhoneFitService.csproj", "{03228F69-3886-4A03-9F76-00E5B4B6514C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
