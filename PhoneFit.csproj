@@ -339,6 +339,7 @@
     </Compile>
     <Compile Include="Connected Services\BackendServiceReference\OrderContracts.cs" />
     <Compile Include="Connected Services\BackendServiceReference\ProductContracts.cs" />
+    <Compile Include="Connected Services\BackendServiceReference\CatalogContracts.cs" />
     <Compile Include="MasterPagePreview.aspx.cs">
       <DependentUpon>MasterPagePreview.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
