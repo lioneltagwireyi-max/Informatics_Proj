@@ -26,10 +26,10 @@ namespace PhoneFitService
         PhoneCatalogue GetPhoneByID(int phoneModelID);
 
         [OperationContract]
-        List<PhoneVariant> GetVariantsByPhoneID(int phoneModelID);
+        List<VariantInfo> GetVariantsByPhoneID(int phoneModelID);
 
         [OperationContract]
-        PhoneSpecification GetSpecificationByPhoneID(int phoneModelID);
+        SpecificationInfo GetSpecificationByPhoneID(int phoneModelID);
 
         [OperationContract]
         bool AddToCart(int userID, int variantID, int quantity);
@@ -391,6 +391,83 @@ namespace PhoneFitService
 
         [DataMember]
         public int StockQuantity { get; set; }
+    }
+
+    // Flat variant DTO — do not return LINQ PhoneVariant entities over WCF
+    // (EntitySet associations such as CartItems cause serialization faults).
+    [DataContract]
+    public class VariantInfo
+    {
+        [DataMember]
+        public int VariantID { get; set; }
+
+        [DataMember]
+        public int PhoneModelID { get; set; }
+
+        [DataMember]
+        public int RAMGB { get; set; }
+
+        [DataMember]
+        public int StorageGB { get; set; }
+
+        [DataMember]
+        public string Colour { get; set; }
+
+        [DataMember]
+        public decimal Price { get; set; }
+
+        [DataMember]
+        public int StockQuantity { get; set; }
+
+        [DataMember]
+        public int LowStockLevel { get; set; }
+
+        [DataMember]
+        public bool IsActive { get; set; }
+    }
+
+    // Flat specification DTO — avoids serializing PhoneModel EntityRef.
+    [DataContract]
+    public class SpecificationInfo
+    {
+        [DataMember]
+        public int SpecificationID { get; set; }
+
+        [DataMember]
+        public int PhoneModelID { get; set; }
+
+        [DataMember]
+        public string Processor { get; set; }
+
+        [DataMember]
+        public decimal? ScreenSize { get; set; }
+
+        [DataMember]
+        public string ScreenType { get; set; }
+
+        [DataMember]
+        public int? RefreshRate { get; set; }
+
+        [DataMember]
+        public int? BatteryCapacity { get; set; }
+
+        [DataMember]
+        public decimal? RearCameraMP { get; set; }
+
+        [DataMember]
+        public decimal? FrontCameraMP { get; set; }
+
+        [DataMember]
+        public bool Supports5G { get; set; }
+
+        [DataMember]
+        public bool DualSIM { get; set; }
+
+        [DataMember]
+        public bool ExpandableStorage { get; set; }
+
+        [DataMember]
+        public string WaterResistance { get; set; }
     }
 
     [DataContract]

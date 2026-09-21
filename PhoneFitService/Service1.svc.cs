@@ -143,6 +143,12 @@ namespace PhoneFitService
                      orderby v.Price ascending
                      select v).FirstOrDefault();
 
+                // Skip models that cannot be sold (no brand or no active variant).
+                if (brand == null || variant == null)
+                {
+                    continue;
+                }
+
                 PhoneCatalogue cataloguePhone = new PhoneCatalogue
                 {
                     PhoneModelID = phone.PhoneModelID,
@@ -185,6 +191,11 @@ namespace PhoneFitService
                  orderby v.Price ascending
                  select v).FirstOrDefault();
 
+            if (brand == null || variant == null)
+            {
+                return null;
+            }
+
             PhoneCatalogue selectedPhone = new PhoneCatalogue
             {
                 PhoneModelID = phone.PhoneModelID,
@@ -199,26 +210,57 @@ namespace PhoneFitService
             return selectedPhone;
         }
 
-        public List<PhoneVariant> GetVariantsByPhoneID(int phoneModelID)
+        public List<VariantInfo> GetVariantsByPhoneID(int phoneModelID)
         {
             var variants =
                 (from variant in db.PhoneVariants
                  where variant.PhoneModelID == phoneModelID
                  && variant.IsActive == true
                  orderby variant.Price ascending
-                 select variant).ToList();
+                 select new VariantInfo
+                 {
+                     VariantID = variant.VariantID,
+                     PhoneModelID = variant.PhoneModelID,
+                     RAMGB = variant.RAMGB,
+                     StorageGB = variant.StorageGB,
+                     Colour = variant.Colour,
+                     Price = variant.Price,
+                     StockQuantity = variant.StockQuantity,
+                     LowStockLevel = variant.LowStockLevel,
+                     IsActive = variant.IsActive
+                 }).ToList();
 
             return variants;
         }
 
-        public PhoneSpecification GetSpecificationByPhoneID(int phoneModelID)
+        public SpecificationInfo GetSpecificationByPhoneID(int phoneModelID)
         {
             var specification =
                 (from spec in db.PhoneSpecifications
                  where spec.PhoneModelID == phoneModelID
                  select spec).SingleOrDefault();
 
-            return specification;
+            if (specification == null)
+            {
+                return null;
+            }
+
+            return new SpecificationInfo
+            {
+                SpecificationID = specification.SpecificationID,
+                PhoneModelID = specification.PhoneModelID,
+                Processor = specification.Processor,
+                ScreenSize = specification.ScreenSize,
+                ScreenType = specification.ScreenType,
+                RefreshRate = specification.RefreshRate,
+                BatteryCapacity = specification.BatteryCapacity,
+                RearCameraMP = specification.RearCameraMP,
+                FrontCameraMP = specification.FrontCameraMP,
+                Supports5G = specification.Supports5G,
+                DualSIM = specification.DualSIM,
+                ExpandableStorage = specification.ExpandableStorage,
+                WaterResistance = specification.WaterResistance
+            };
         }
 
         public bool AddToCart(int userID, int variantID, int quantity)

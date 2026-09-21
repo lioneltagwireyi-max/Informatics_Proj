@@ -1423,16 +1423,16 @@ namespace PhoneFit.BackendServiceReference {
         System.Threading.Tasks.Task<PhoneFit.BackendServiceReference.PhoneCatalogue> GetPhoneByIDAsync(int phoneModelID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetVariantsByPhoneID", ReplyAction="http://tempuri.org/IService1/GetVariantsByPhoneIDResponse")]
-        PhoneFit.BackendServiceReference.PhoneVariant[] GetVariantsByPhoneID(int phoneModelID);
+        PhoneFit.BackendServiceReference.VariantInfo[] GetVariantsByPhoneID(int phoneModelID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetVariantsByPhoneID", ReplyAction="http://tempuri.org/IService1/GetVariantsByPhoneIDResponse")]
-        System.Threading.Tasks.Task<PhoneFit.BackendServiceReference.PhoneVariant[]> GetVariantsByPhoneIDAsync(int phoneModelID);
+        System.Threading.Tasks.Task<PhoneFit.BackendServiceReference.VariantInfo[]> GetVariantsByPhoneIDAsync(int phoneModelID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetSpecificationByPhoneID", ReplyAction="http://tempuri.org/IService1/GetSpecificationByPhoneIDResponse")]
-        PhoneFit.BackendServiceReference.PhoneSpecification GetSpecificationByPhoneID(int phoneModelID);
+        PhoneFit.BackendServiceReference.SpecificationInfo GetSpecificationByPhoneID(int phoneModelID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetSpecificationByPhoneID", ReplyAction="http://tempuri.org/IService1/GetSpecificationByPhoneIDResponse")]
-        System.Threading.Tasks.Task<PhoneFit.BackendServiceReference.PhoneSpecification> GetSpecificationByPhoneIDAsync(int phoneModelID);
+        System.Threading.Tasks.Task<PhoneFit.BackendServiceReference.SpecificationInfo> GetSpecificationByPhoneIDAsync(int phoneModelID);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/AddToCart", ReplyAction="http://tempuri.org/IService1/AddToCartResponse")]
         bool AddToCart(int userID, int variantID, int quantity);
@@ -1563,19 +1563,19 @@ namespace PhoneFit.BackendServiceReference {
             return base.Channel.GetPhoneByIDAsync(phoneModelID);
         }
         
-        public PhoneFit.BackendServiceReference.PhoneVariant[] GetVariantsByPhoneID(int phoneModelID) {
+        public PhoneFit.BackendServiceReference.VariantInfo[] GetVariantsByPhoneID(int phoneModelID) {
             return base.Channel.GetVariantsByPhoneID(phoneModelID);
         }
         
-        public System.Threading.Tasks.Task<PhoneFit.BackendServiceReference.PhoneVariant[]> GetVariantsByPhoneIDAsync(int phoneModelID) {
+        public System.Threading.Tasks.Task<PhoneFit.BackendServiceReference.VariantInfo[]> GetVariantsByPhoneIDAsync(int phoneModelID) {
             return base.Channel.GetVariantsByPhoneIDAsync(phoneModelID);
         }
         
-        public PhoneFit.BackendServiceReference.PhoneSpecification GetSpecificationByPhoneID(int phoneModelID) {
+        public PhoneFit.BackendServiceReference.SpecificationInfo GetSpecificationByPhoneID(int phoneModelID) {
             return base.Channel.GetSpecificationByPhoneID(phoneModelID);
         }
         
-        public System.Threading.Tasks.Task<PhoneFit.BackendServiceReference.PhoneSpecification> GetSpecificationByPhoneIDAsync(int phoneModelID) {
+        public System.Threading.Tasks.Task<PhoneFit.BackendServiceReference.SpecificationInfo> GetSpecificationByPhoneIDAsync(int phoneModelID) {
             return base.Channel.GetSpecificationByPhoneIDAsync(phoneModelID);
         }
         

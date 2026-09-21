@@ -1,5 +1,6 @@
-﻿<%@ Page Title="Phone Details" Language="C#" MasterPageFile="~/Phonefit.Master"
-    AutoEventWireup="true" CodeBehind="product.aspx.cs" Inherits="PhoneFit.product" %><asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+﻿<%@ Page Title="Phone Details" Language="C#" MasterPageFile="~/PhoneFit.Master"
+    AutoEventWireup="true" CodeBehind="product.aspx.cs" Inherits="PhoneFit.product" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
